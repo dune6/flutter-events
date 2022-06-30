@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_events/ui/auth_widget.dart';
+import 'package:flutter_events/ui/auth/auth_widget.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const AuthWidget(),
+      home: AuthWidget.create(),
     );
   }
 }

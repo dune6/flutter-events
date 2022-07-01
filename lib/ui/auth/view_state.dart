@@ -3,12 +3,12 @@ class ViewModelState {
   static const successValidation = true;
   static const notAgreeSwitch = false;
 
-  final int select;
+  final int select; // выбранная кнопка вход/регистрация
   final String login;
   final String email;
   final String password;
   final String secondPassword;
-  final bool validation;
+  final bool validation; // состояние валидации после нажатия на кнопку
   final bool isAgreeSwitch;
 
   ViewModelState({

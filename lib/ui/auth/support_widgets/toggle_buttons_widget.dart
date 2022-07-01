@@ -40,6 +40,7 @@ class ToggleButtonsState extends State<ToggleButtonsWidget> {
       isSelected: arrSelected,
       onPressed: (int index) {
         model.changeToggleButton(index);
+        // обновляем состояние
         setState(() {});
       },
     );

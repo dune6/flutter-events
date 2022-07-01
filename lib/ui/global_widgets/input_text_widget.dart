@@ -7,8 +7,13 @@ class InputText extends StatelessWidget {
 
   final String name;
   final Function func;
+  final bool obscureText;
 
-  const InputText({Key? key, required this.name, required this.func})
+  const InputText(
+      {Key? key,
+      required this.name,
+      required this.func,
+      required this.obscureText})
       : super(key: key);
 
   @override
@@ -19,11 +24,12 @@ class InputText extends StatelessWidget {
       child: SizedBox(
         height: heightTextInput,
         child: TextField(
+          obscureText: obscureText,
           decoration: InputDecoration(
             border: const OutlineInputBorder(),
             labelText: name,
           ),
-          onChanged: (_) => func,
+          onChanged: (text) => func(text),
         ),
       ),
     );

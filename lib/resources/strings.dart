@@ -6,4 +6,5 @@ class Strings {
   static const password = 'Пароль';
   static const repeatPassword = 'Повторить пароль';
   static const agreeWithRules = 'Согласен с правилами';
+  static const errorText = 'Ошибка валидации полей';
 }

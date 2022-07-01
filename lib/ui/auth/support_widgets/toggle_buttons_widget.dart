@@ -20,6 +20,7 @@ class ToggleButtonsState extends State<ToggleButtonsWidget> {
   @override
   Widget build(BuildContext context) {
     final model = context.read<ViewModel>(); // read viewModel
+
     var arrSelected = [false, true];
     if (model.state.select == Constants.registrationPageNumber) {
       arrSelected = [false, true];

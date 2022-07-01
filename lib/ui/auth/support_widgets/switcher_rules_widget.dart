@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import '../../../resources/strings.dart';
+import '../view_model.dart';
 
 class AgreeWithRules extends StatefulWidget {
   const AgreeWithRules({Key? key}) : super(key: key);
@@ -12,10 +14,9 @@ class AgreeWithRules extends StatefulWidget {
 class AgreeWithRulesState extends State<AgreeWithRules> {
   static const horizontalPadding = 20.0;
 
-  bool _switcherValue = true;
-
   @override
   Widget build(BuildContext context) {
+    final model = context.read<ViewModel>();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Row(
@@ -23,10 +24,10 @@ class AgreeWithRulesState extends State<AgreeWithRules> {
         children: [
           const Text(Strings.agreeWithRules),
           CupertinoSwitch(
-            value: _switcherValue,
+            value: model.state.isAgreeSwitch,
             onChanged: (bool value) {
               setState(() {
-                _switcherValue = value;
+                model.switchAgree(value);
               });
             },
           ),

@@ -4,11 +4,15 @@ import 'package:flutter_events/resources/constants.dart';
 import 'view_state.dart';
 
 class ViewModel extends ChangeNotifier {
-  var _state = ViewModelState();
+  static const validationError = false;
+  static const validationSuccess = true;
 
+  var _state = ViewModelState();
   ViewModelState get state => _state;
 
-  void switchAgree() {} // TODO add logic
+  void switchAgree(bool value) {
+    _state = _state.copyWith(isAgreeSwitch: value);
+  }
 
   // обработка состояния при нажати на вход/регистрацию
   void changeToggleButton(int index) {
@@ -42,5 +46,53 @@ class ViewModel extends ChangeNotifier {
     if (_state.secondPassword == value) return;
     _state = _state.copyWith(secondPassword: value);
     notifyListeners();
+  }
+
+  void onLoginButtonPressed({required String login, required String password}) {
+    if (validateLogin(login) && validatePassword(password)) {
+      _state = _state.copyWith(validation: validationSuccess);
+      // TODO navigate to main screen
+    } else {
+      _state = _state.copyWith(validation: validationError);
+    }
+  }
+
+  void onRegistrationButtonPressed({
+    required String login,
+    required String email,
+    required String password,
+    required String secondPassword,
+  }) {
+    if (validateLogin(login) &&
+        validateEmail(email) &&
+        validatePassword(password) &&
+        validatePassword(secondPassword)) {
+      _state = _state.copyWith(validation: validationSuccess);
+      // TODO navigate to main screen
+    } else {
+      _state = _state.copyWith(validation: validationError);
+    }
+  }
+
+// validation helpers
+  static bool validateLogin(String value) {
+    return (value.isNotEmpty && value.length > 4 && value.length < 12);
+  }
+
+  static bool validateEmail(String value) {
+    String pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = RegExp(pattern);
+    if (value.isEmpty || !regex.hasMatch(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  static bool validatePassword(String value) {
+    return (value.isNotEmpty && value.length > 5 && value.length < 12);
   }
 }

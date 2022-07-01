@@ -8,8 +8,6 @@ import 'package:flutter_events/ui/auth/support_widgets/toggle_buttons_widget.dar
 import 'package:flutter_events/ui/global_widgets/error_text_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../resources/strings.dart';
-import '../global_widgets/input_text_widget.dart';
 import 'view_model.dart';
 
 class AuthWidget extends StatelessWidget {

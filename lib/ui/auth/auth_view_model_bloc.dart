@@ -5,8 +5,6 @@ import 'package:flutter_events/resources/constants.dart';
 import 'auth_state.dart';
 
 class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
-  static const validationError = false;
-  static const validationSuccess = true;
 
   AuthViewModelBloc(AuthState initialState) : super(initialState) {
     on<ChangeToggleButtonEvent>((event, emit) => changeToggleButton(event, emit));
@@ -29,8 +27,7 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
           password: '',
           validation: true,
           secondPassword: '',
-          email: '',
-          isAgreeSwitch: false));
+          email: '',));
     } else {
       emit(state.copyWith(
           select: Constants.registrationPageNumber,
@@ -75,10 +72,10 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
   // обработка нажатия на кнопку "Вход"
   void onLoginButtonPressed(LoginEvent event, Emitter emit) {
     if (validateLogin(event.login) && validatePassword(event.password)) {
-      emit(state.copyWith(validation: validationSuccess));
+      emit(state.copyWith(validation: true));
       // TODO navigate to main screen
     } else {
-      emit(state.copyWith(validation: validationError));
+      emit(state.copyWith(validation: false));
     }
   }
 
@@ -89,11 +86,11 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
         validatePassword(event.password) &&
         validatePassword(event.secondPassword) &&
         state.isAgreeSwitch) {
-      emit(state.copyWith(validation: validationSuccess));
+      emit(state.copyWith(validation: true));
       changeToggleButton(ChangeToggleButtonEvent(0), emit); // navigate to login
       // TODO запись в локальное хранилище
     } else {
-      emit(state.copyWith(validation: validationError));
+      emit(state.copyWith(validation: false));
     }
   }
 

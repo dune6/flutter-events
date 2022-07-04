@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_events/ui/auth/auth_state.dart';
+import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
 import 'package:flutter_events/ui/auth/auth_widget.dart';
 
 class App extends StatelessWidget {
@@ -12,7 +15,10 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: AuthWidget.create(),
+      home: BlocProvider(
+        create: (_) => AuthViewModelBloc(const AuthState()),
+        child: const AuthWidget(),
+      ),
     );
   }
 }

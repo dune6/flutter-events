@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_events/events/auth/auth_events.dart';
+import 'package:flutter_events/ui/auth/auth_state.dart';
 
 import '../../../resources/strings.dart';
-import '../view_model.dart';
+import '../auth_view_model_bloc.dart';
 
 class AgreeWithRules extends StatefulWidget {
   const AgreeWithRules({Key? key}) : super(key: key);
@@ -16,19 +18,24 @@ class AgreeWithRulesState extends State<AgreeWithRules> {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.read<ViewModel>();
+    final bloc = context.read<AuthViewModelBloc>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Text(Strings.agreeWithRules),
-          CupertinoSwitch(
-            value: model.state.isAgreeSwitch,
-            onChanged: (bool value) {
-              setState(() {
-                model.switchAgree(value);
-              });
+          BlocBuilder<AuthViewModelBloc, AuthState>(
+            builder: (context, state) {
+              return CupertinoSwitch(
+                value: state.isAgreeSwitch,
+                onChanged: (bool value) {
+                  setState(() {
+                    bloc.add(SwitchAgreeEvent(value));
+                  });
+                },
+              );
             },
           ),
         ],

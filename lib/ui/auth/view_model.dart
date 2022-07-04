@@ -4,6 +4,9 @@ import 'package:flutter_events/resources/constants.dart';
 import 'view_state.dart';
 
 class ViewModel extends ChangeNotifier {
+  static const validationError = false;
+  static const validationSuccess = true;
+
   var _state = ViewModelState();
 
   ViewModelState get state => _state;
@@ -70,10 +73,10 @@ class ViewModel extends ChangeNotifier {
   // обработка нажатия на кнопку "Вход"
   void onLoginButtonPressed({required String login, required String password}) {
     if (validateLogin(login) && validatePassword(password)) {
-      _state = _state.copyWith(validation: true);
+      _state = _state.copyWith(validation: validationSuccess);
       // TODO navigate to main screen
     } else {
-      _state = _state.copyWith(validation: false);
+      _state = _state.copyWith(validation: validationError);
     }
     notifyListeners();
   }
@@ -89,11 +92,11 @@ class ViewModel extends ChangeNotifier {
         validateEmail(email) &&
         validatePassword(password) &&
         validatePassword(secondPassword)) {
-      _state = _state.copyWith(validation: true);
+      _state = _state.copyWith(validation: validationSuccess);
       // TODO navigate to login
       // TODO запись в локальное хранилище
     } else {
-      _state = _state.copyWith(validation: false);
+      _state = _state.copyWith(validation: validationError);
     }
     notifyListeners();
   }

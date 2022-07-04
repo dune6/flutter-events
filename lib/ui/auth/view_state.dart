@@ -1,5 +1,7 @@
 class ViewModelState {
   static const registrationSelect = 1;
+  static const successValidation = true;
+  static const notAgreeSwitch = false;
 
   final int select; // выбранная кнопка вход/регистрация
   final String login;
@@ -15,7 +17,8 @@ class ViewModelState {
     this.email = '',
     this.password = '',
     this.secondPassword = '',
-    this.isAgreeSwitch = false,
+    this.validation = successValidation,
+    this.isAgreeSwitch = notAgreeSwitch,
   });
 
   ViewModelState copyWith({

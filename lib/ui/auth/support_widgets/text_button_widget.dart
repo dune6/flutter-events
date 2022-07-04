@@ -14,8 +14,6 @@ class TextButtonWidget<T extends AuthEvent> extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.read<AuthViewModelBloc>();
 
-    return TextButton(
-        onPressed: () => bloc.add(event),
-        child: Text(text));
+    return TextButton(onPressed: () => bloc.add(event), child: Text(text));
   }
 }

@@ -5,29 +5,32 @@ import 'package:flutter_events/resources/constants.dart';
 import 'auth_state.dart';
 
 class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
-
   AuthViewModelBloc(AuthState initialState) : super(initialState) {
-    on<ChangeToggleButtonEvent>((event, emit) => changeToggleButton(event, emit));
+    on<ChangeToggleButtonEvent>(
+        (event, emit) => changeToggleButton(event, emit));
     on<ChangeLoginEvent>((event, emit) => changeLogin(event, emit));
     on<ChangeEmailEvent>((event, emit) => changeEmail(event, emit));
     on<ChangePasswordEvent>((event, emit) => changePassword(event, emit));
-    on<ChangeSecondPasswordEvent>((event, emit) => changeSecondPassword(event, emit));
+    on<ChangeSecondPasswordEvent>(
+        (event, emit) => changeSecondPassword(event, emit));
     on<SwitchAgreeEvent>((event, emit) => switchAgree(event, emit));
     on<LoginEvent>((event, emit) => onLoginButtonPressed(event, emit));
-    on<RegistrationEvent>((event, emit) => onRegistrationButtonPressed(event, emit));
+    on<RegistrationEvent>(
+        (event, emit) => onRegistrationButtonPressed(event, emit));
   }
 
   // обработка состояния при нажати на вход/регистрацию
   void changeToggleButton(ChangeToggleButtonEvent event, Emitter emit) {
     if (event.index == Constants.loginPageNumber) {
       emit(state.copyWith(
-          // обнуляем состояние при переходах с авторизации на регистрацию и наоборот
-          select: Constants.loginPageNumber,
-          login: '',
-          password: '',
-          validation: true,
-          secondPassword: '',
-          email: '',));
+        // обнуляем состояние при переходах с авторизации на регистрацию и наоборот
+        select: Constants.loginPageNumber,
+        login: '',
+        password: '',
+        validation: true,
+        secondPassword: '',
+        email: '',
+      ));
     } else {
       emit(state.copyWith(
           select: Constants.registrationPageNumber,
@@ -86,8 +89,7 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
         validatePassword(event.password) &&
         validatePassword(event.secondPassword) &&
         state.isAgreeSwitch) {
-      emit(state.copyWith(validation: true));
-      changeToggleButton(ChangeToggleButtonEvent(0), emit); // navigate to login
+      emit(state.copyWith(validation: true, select: 0));
       // TODO запись в локальное хранилище
     } else {
       emit(state.copyWith(validation: false));

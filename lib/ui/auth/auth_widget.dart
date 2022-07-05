@@ -9,6 +9,7 @@ import 'package:flutter_events/ui/auth/support_widgets/text_button_widget.dart';
 import 'package:flutter_events/ui/auth/support_widgets/toggle_buttons_widget.dart';
 import 'package:flutter_events/ui/global_widgets/error_text_widget.dart';
 
+import 'auth_state.dart';
 import 'auth_view_model_bloc.dart';
 
 class AuthWidget extends StatelessWidget {
@@ -16,6 +17,13 @@ class AuthWidget extends StatelessWidget {
   static const heightPadding = 20.0;
 
   const AuthWidget({Key? key}) : super(key: key);
+
+  static Widget create() {
+    return BlocProvider(
+      create: (_) => AuthViewModelBloc(const AuthState()),
+      child: const AuthWidget(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

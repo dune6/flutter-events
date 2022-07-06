@@ -6,6 +6,7 @@ String userToJson(User data) => json.encode(data.toMap());
 
 class User {
   User({
+    required this.id,
     required this.login,
     required this.email,
     required this.password,
@@ -14,6 +15,7 @@ class User {
     this.telegram = '',
   });
 
+  final int id;
   final String login;
   final String email;
   final String password;
@@ -22,6 +24,7 @@ class User {
   final String telegram;
 
   factory User.fromMap(Map<String, dynamic> json) => User(
+        id: json["id"],
         login: json["login"],
         email: json["email"],
         password: json["password"],
@@ -31,6 +34,7 @@ class User {
       );
 
   Map<String, dynamic> toMap() => {
+        "id": id,
         "login": login,
         "email": email,
         "password": password,

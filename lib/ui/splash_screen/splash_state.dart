@@ -5,7 +5,7 @@ class SplashState {
   final bool isAuth;
 
   const SplashState({
-    this.isAuth = true,
+    required this.isAuth,
   });
 
   SplashState copyWith({

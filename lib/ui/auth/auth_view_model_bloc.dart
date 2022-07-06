@@ -1,10 +1,13 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
 import 'package:flutter_events/events/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
 
 import 'auth_state.dart';
 
 class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
+  final _authService = AuthService();
+
   AuthViewModelBloc(AuthState initialState) : super(initialState) {
     on<ChangeToggleButtonEvent>(
         (event, emit) => changeToggleButton(event, emit));
@@ -73,24 +76,32 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   // обработка нажатия на кнопку "Вход"
-  void onLoginButtonPressed(LoginEvent event, Emitter emit) {
+  Future<void> onLoginButtonPressed(LoginEvent event, Emitter emit) async {
     if (validateLogin(event.login) && validatePassword(event.password)) {
       emit(state.copyWith(validation: true));
-      // TODO navigate to main screen
+      if (await _authService.login(event.login, event.password)) {
+        emit(state.copyWith(successAuthed: true));
+      }
     } else {
       emit(state.copyWith(validation: false));
     }
   }
 
   // обработка нажатия на кнопку "Регистрация"
-  void onRegistrationButtonPressed(RegistrationEvent event, Emitter emit) {
+  Future<void> onRegistrationButtonPressed(
+      RegistrationEvent event, Emitter emit) async {
     if (validateLogin(event.login) &&
         validateEmail(event.email) &&
         validatePassword(event.password) &&
         validatePassword(event.secondPassword) &&
         state.isAgreeSwitch) {
-      emit(state.copyWith(validation: true, select: 0));
-      // TODO запись в локальное хранилище
+      emit(state.copyWith(validation: true));
+      if (await _authService.registrationUser(
+          event.login, event.email, event.password)) {
+        emit(state.copyWith(select: 0));
+      } else {
+        emit(state.copyWith(validation: false));
+      }
     } else {
       emit(state.copyWith(validation: false));
     }

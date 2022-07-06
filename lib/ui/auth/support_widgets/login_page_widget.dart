@@ -6,12 +6,19 @@ import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
 import 'package:flutter_events/ui/global_widgets/input_text_widget.dart';
 
+import '../../navigation/nav_routes.dart';
+
 class LoginPageWidget extends StatelessWidget {
   const LoginPageWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<AuthViewModelBloc>();
+    final bloc = context.watch<AuthViewModelBloc>();
+
+    if (bloc.state.successAuthed) {
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil(NavRoutes.homeRoute, (route) => false);
+    }
 
     return Column(
       children: [

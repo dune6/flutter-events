@@ -11,6 +11,7 @@ class AuthState {
   final String secondPassword;
   final bool validation; // состояние валидации после нажатия на кнопку
   final bool isAgreeSwitch;
+  final bool successAuthed;
 
   const AuthState({
     this.select = registrationSelect,
@@ -20,6 +21,7 @@ class AuthState {
     this.secondPassword = '',
     this.validation = true,
     this.isAgreeSwitch = false,
+    this.successAuthed = false,
   });
 
   AuthState copyWith({
@@ -30,15 +32,17 @@ class AuthState {
     String? secondPassword,
     bool? validation,
     bool? isAgreeSwitch,
+    bool? successAuthed,
   }) {
     return AuthState(
-      select: select ?? this.select,
-      login: login ?? this.login,
-      email: email ?? this.email,
-      password: password ?? this.password,
-      secondPassword: secondPassword ?? this.secondPassword,
-      validation: validation ?? this.validation,
-      isAgreeSwitch: isAgreeSwitch ?? this.isAgreeSwitch,
+        select: select ?? this.select,
+        login: login ?? this.login,
+        email: email ?? this.email,
+        password: password ?? this.password,
+        secondPassword: secondPassword ?? this.secondPassword,
+        validation: validation ?? this.validation,
+        isAgreeSwitch: isAgreeSwitch ?? this.isAgreeSwitch,
+        successAuthed: successAuthed ?? this.successAuthed
     );
   }
 }

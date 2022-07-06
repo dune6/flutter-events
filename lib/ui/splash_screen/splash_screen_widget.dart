@@ -11,7 +11,7 @@ class SplashWidget extends StatelessWidget {
 
   static Widget create() {
     return BlocProvider(
-      create: (_) => SplashViewModelBloc(const SplashState()),
+      create: (_) => SplashViewModelBloc(const SplashState(isAuth: false)),
       child: const SplashWidget(),
     );
   }

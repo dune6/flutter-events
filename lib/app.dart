@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_events/ui/auth/auth_widget.dart';
+import 'package:flutter_events/ui/home/home_widget.dart';
 import 'package:flutter_events/ui/navigation/nav_routes.dart';
 import 'package:flutter_events/ui/splash_screen/splash_screen_widget.dart';
 
@@ -10,7 +11,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Events',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -18,6 +19,7 @@ class App extends StatelessWidget {
       routes: {
         NavRoutes.authRoute: (_) => AuthWidget.create(),
         NavRoutes.splashRoute: (_) => SplashWidget.create(),
+        NavRoutes.homeRoute: (_) => const HomeWidget(),
       },
     );
   }

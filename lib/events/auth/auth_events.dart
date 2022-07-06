@@ -20,6 +20,14 @@ class RegistrationEvent extends AuthEvent {
   RegistrationEvent(this.login, this.email, this.password, this.secondPassword);
 }
 
+class CheckAuthEvent extends AuthEvent {
+  final bool? isAuth;
+
+  CheckAuthEvent(this.isAuth);
+}
+
+class LogoutEvent extends AuthEvent {}
+
 // AUTH VIEW MODEL EVENTS:::::
 
 // TOGGLE BUTTON

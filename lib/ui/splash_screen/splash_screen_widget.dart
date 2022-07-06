@@ -23,10 +23,14 @@ class SplashWidget extends StatelessWidget {
       body: BlocListener<SplashViewModelBloc, SplashState>(
         listener: (context, state) {
           if (state.isAuth) {
-            // TODO navigation to main screen
+            Timer(const Duration(seconds: 3), () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  NavRoutes.homeRoute, (route) => false);
+            });
           } else {
             Timer(const Duration(seconds: 3), () {
-              Navigator.of(context).pushReplacementNamed(NavRoutes.authRoute);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  NavRoutes.authRoute, (route) => false);
             });
           }
         },

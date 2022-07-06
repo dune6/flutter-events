@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 @immutable
 class AuthState {
   static const registrationSelect = 1;
-  static const successValidation = true;
-  static const notAgreeSwitch = false;
 
   final int select; // выбранная кнопка вход/регистрация
   final String login;
@@ -15,7 +13,7 @@ class AuthState {
   final bool isAgreeSwitch;
 
   const AuthState({
-    this.select = 1,
+    this.select = registrationSelect,
     this.login = '',
     this.email = '',
     this.password = '',

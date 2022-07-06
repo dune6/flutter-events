@@ -1,49 +1,52 @@
 import 'dart:async';
 
-import 'package:flutter_events/domain/data/auth_data/database_repository.dart';
+import 'package:bloc/bloc.dart';
+import 'package:flutter_events/domain/data/auth_data/auth_api_provider.dart';
 import 'package:flutter_events/domain/data/auth_data/session_api_provider.dart';
-import 'package:flutter_events/domain/entity/user_entity.dart';
-import 'package:flutter_events/domain/entity/user_model.dart';
-import 'package:flutter_events/domain/repository/user/user_repository.dart';
+import 'package:flutter_events/domain/entity/user.dart';
+import 'package:flutter_events/events/auth/auth_events.dart';
+import 'package:meta/meta.dart';
 
-import '../../../exceptions/auth_exception.dart';
+part 'auth_service_state.dart';
 
-/*
-  Сервис для работы с репозиториями
- */
-class AuthService {
+class AuthException {}
+
+class LoginException extends AuthException {}
+
+class AuthService extends Bloc<AuthEvent, AuthServiceState> {
   final _sessionDataProvider = SessionDataProvider();
-  final _dbRepository = DBRepository();
+  final _authApiProvider = AuthAPIProvider();
 
-  Future<UserEntity> getLastUser() async {
-    return await _dbRepository.getLastUser();
+  AuthService() : super(const AuthServiceState()) {
+    on<RegistrationEvent>((event, emit) => registrationUser(event, emit));
+    on<LoginEvent>((event, emit) => login(event, emit));
+    on<CheckAuthEvent>((event, emit) => checkAuth(emit));
+    on<LogoutEvent>((event, emit) => logout(emit));
   }
 
-  Future<bool> checkAuth() async {
+  Future<void> checkAuth(Emitter emit) async {
     final apiKey = await _sessionDataProvider.apiKey();
     if (apiKey != null) {
-      return true;
-    } else {
-      return false;
+      emit(state.copyWith(isAuth: true));
     }
   }
 
-  Future<void> login(String login, String password) async {
-    final user = await _dbRepository.getUserByLogin(login);
-    if (user.password == password) {
-      await _sessionDataProvider.saveApiKey(login);
+  Future<void> login(LoginEvent event, Emitter emit) async {
+    if (await _authApiProvider.getUser(event.login) != null) {
+      await _sessionDataProvider.saveApiKey(event.login);
+      emit(state.copyWith(isAuth: true));
     } else {
-      throw LoginPasswordsException();
+      throw LoginException();
     }
   }
 
-  Future<void> registrationUser(
-      String login, String email, String password) async {
-    await _dbRepository.addUser(UserRepository.userModelToMap(
-        UserModel(login: login, email: email, password: password)));
+  Future<void> registrationUser(RegistrationEvent event, Emitter emit) async {
+    await _authApiProvider.registrationUser(
+        User(login: event.login, email: event.email, password: event.password));
   }
 
-  Future<void> logout() async {
+  Future<void> logout(Emitter emit) async {
     await _sessionDataProvider.clearApiKey();
+    emit(state.copyWith(isAuth: false));
   }
 }

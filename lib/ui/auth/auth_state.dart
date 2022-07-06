@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+
+@immutable
 class AuthState {
   static const registrationSelect = 1;
   static const successValidation = true;
@@ -20,42 +23,6 @@ class AuthState {
     this.validation = true,
     this.isAgreeSwitch = false,
   });
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is AuthState &&
-          runtimeType == other.runtimeType &&
-          select == other.select &&
-          login == other.login &&
-          email == other.email &&
-          password == other.password &&
-          secondPassword == other.secondPassword &&
-          validation == other.validation &&
-          isAgreeSwitch == other.isAgreeSwitch);
-
-  @override
-  int get hashCode =>
-      select.hashCode ^
-      login.hashCode ^
-      email.hashCode ^
-      password.hashCode ^
-      secondPassword.hashCode ^
-      validation.hashCode ^
-      isAgreeSwitch.hashCode;
-
-  @override
-  String toString() {
-    return 'AuthState{' +
-        ' select: $select,' +
-        ' login: $login,' +
-        ' email: $email,' +
-        ' password: $password,' +
-        ' secondPassword: $secondPassword,' +
-        ' validation: $validation,' +
-        ' isAgreeSwitch: $isAgreeSwitch,' +
-        '}';
-  }
 
   AuthState copyWith({
     int? select,

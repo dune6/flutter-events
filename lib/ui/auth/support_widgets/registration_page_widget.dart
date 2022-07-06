@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_events/events/auth/auth_events.dart';
+import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
 import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/auth/auth_widget.dart';

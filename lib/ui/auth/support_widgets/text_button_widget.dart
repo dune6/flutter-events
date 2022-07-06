@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_events/events/auth/auth_events.dart';
+import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
 
 class TextButtonWidget<T extends AuthEvent> extends StatelessWidget {

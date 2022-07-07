@@ -10,11 +10,16 @@ part 'home_event.dart';
 
 part 'home_state.dart';
 
+abstract class HomeException {}
+
+class LogoutException extends HomeException {}
+
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final AuthService _authService = AuthService();
 
   HomeBloc(HomeState init) : super(init) {
     on<LogoutEventHome>((event, emit) => logout(emit));
+    on<LogoutEvent>((event, emit) => logout(emit));
   }
 
   Future<void> logout(Emitter emit) async {
@@ -22,6 +27,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       await _authService.logout();
       emit(state.copyWith(isAuth: false));
     } else {
+      throw LoginException();
       throw LogoutException();
     }
   }

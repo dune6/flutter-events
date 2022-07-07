@@ -25,7 +25,7 @@ class AuthService {
     final user = await _authApiProvider.getUser(login);
     if (user != null) {
       if (user.password == password) {
-        await _sessionDataProvider.saveApiKey(login.hashCode.toString());
+        await _sessionDataProvider.saveApiKey(login);
         return true;
       } else {
         return false;

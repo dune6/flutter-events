@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/events/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
@@ -39,7 +40,7 @@ class AuthWidget extends StatelessWidget {
 
     // пишем об ошибке, если валидация полей не прошла
     Widget validationError = bloc.state.validation
-        ? const SizedBox.shrink() // по сути пустой пиксель
+        ? const SizedBox() // по сути пустой пиксель
         : const ErrorTextWidget();
 
     // адаптивная кнопка авторизации
@@ -59,6 +60,7 @@ class AuthWidget extends StatelessWidget {
       ),
       body: Center(
           child: Column(
+        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Padding(

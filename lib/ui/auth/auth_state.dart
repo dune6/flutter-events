@@ -42,7 +42,6 @@ class AuthState {
         secondPassword: secondPassword ?? this.secondPassword,
         validation: validation ?? this.validation,
         isAgreeSwitch: isAgreeSwitch ?? this.isAgreeSwitch,
-        successAuthed: successAuthed ?? this.successAuthed
-    );
+        successAuthed: successAuthed ?? this.successAuthed);
   }
 }

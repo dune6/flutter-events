@@ -16,7 +16,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final AuthService _authService = AuthService();
 
   HomeBloc(HomeState init) : super(init) {
-    on<LogoutEvent>((event, emit) => logout(emit));
+    on<LogoutEventHome>((event, emit) => logout(emit));
+    on<CheckLastIdUser>((event, emit) => checkIdLastRegisterUser());
   }
 
   Future<void> logout(Emitter emit) async {
@@ -24,7 +25,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       await _authService.logout();
       emit(state.copyWith(isAuth: false));
     } else {
-      throw LoginException();
+      throw LogoutException();
     }
+  }
+
+  Future<void> checkIdLastRegisterUser() async {
+    print((await _authService.getLastUser())?.id);
+    print(state.isAuth);
   }
 }

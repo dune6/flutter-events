@@ -20,29 +20,17 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginEvent>((event, emit) => onLoginButtonPressed(event, emit));
     on<RegistrationEvent>(
         (event, emit) => onRegistrationButtonPressed(event, emit));
+    on<ChangeAuthedAuth>((event, emit) => changeAuthed(emit));
   }
+
+  void changeAuthed(Emitter emit) => emit(state.copyWith(successAuthed: false));
 
   // обработка состояния при нажати на вход/регистрацию
   void changeToggleButton(ChangeToggleButtonEvent event, Emitter emit) {
     if (event.index == Constants.loginPageNumber) {
-      emit(state.copyWith(
-        // обнуляем состояние при переходах с авторизации на регистрацию и наоборот
-        select: Constants.loginPageNumber,
-        login: '',
-        password: '',
-        validation: true,
-        secondPassword: '',
-        email: '',
-      ));
+      emit(clearStateWithSelect(Constants.loginPageNumber, state));
     } else {
-      emit(state.copyWith(
-          select: Constants.registrationPageNumber,
-          login: '',
-          password: '',
-          validation: true,
-          secondPassword: '',
-          email: '',
-          isAgreeSwitch: false));
+      emit(clearStateWithSelect(Constants.registrationPageNumber, state));
     }
   }
 
@@ -94,11 +82,13 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
         validateEmail(event.email) &&
         validatePassword(event.password) &&
         validatePassword(event.secondPassword) &&
+        event.password == event.secondPassword &&
         state.isAgreeSwitch) {
       emit(state.copyWith(validation: true));
       if (await _authService.registrationUser(
           event.login, event.email, event.password)) {
-        emit(state.copyWith(select: 0));
+        // если регистрация прошла успешно
+        emit(clearStateWithSelect(Constants.loginPageNumber, state));
       } else {
         emit(state.copyWith(validation: false));
       }
@@ -127,5 +117,18 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
 
   static bool validatePassword(String value) {
     return (value.isNotEmpty && value.length > 5 && value.length < 12);
+  }
+
+  // helper
+  AuthState clearStateWithSelect(int select, AuthState state) {
+    return state.copyWith(
+      select: select,
+      login: '',
+      password: '',
+      validation: true,
+      secondPassword: '',
+      email: '',
+      isAgreeSwitch: false,
+    );
   }
 }

@@ -26,7 +26,7 @@ class DBProvider {
         // Run the CREATE TABLE statement on the database.
         return await db.execute(
           'CREATE TABLE User '
-          '(id INTEGER PRIMARY KEY, '
+          '(id INTEGER PRIMARY KEY AUTOINCREMENT, '
           'login TEXT, '
           'email TEXT,'
           'password TEXT,'

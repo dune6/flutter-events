@@ -12,8 +12,11 @@ class SplashViewModelBloc extends Bloc<SplashEvent, SplashState> {
 
   SplashViewModelBloc(SplashState initial) : super(initial) {
     on<SplashCheckAuth>((event, emit) => checkAuth(emit));
+    on<ChangeAuthSplash>((event, emit) => changeAuthed(emit));
     add(SplashCheckAuth()); // вызываем проверку авторизации при создании блока
   }
+
+  void changeAuthed(Emitter emit) => emit(state.copyWith(isAuth: false));
 
   Future<void> checkAuth(Emitter emit) async {
     if (await _authService.checkAuth()) {

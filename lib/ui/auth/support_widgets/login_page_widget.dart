@@ -16,8 +16,10 @@ class LoginPageWidget extends StatelessWidget {
     final bloc = context.watch<AuthViewModelBloc>();
 
     if (bloc.state.successAuthed) {
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil(NavRoutes.homeRoute, (route) => false);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil(NavRoutes.homeRoute, (route) => false);
+      });
     }
 
     return Column(

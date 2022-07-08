@@ -5,21 +5,20 @@ class AuthAPIProvider {
   // init database
   final database = DBProvider().database;
 
-  Future<int> getLastIndex() async {
-    final db = await database;
-    var res = await db.query('User');
-    if (res.isEmpty) return 0;
-    var last = User.fromMap(res.last);
-    return last.id;
-  }
-
   Future<User?> getUser(String login) async {
     final db = await database;
     var res = await db.query("User", where: "login = ?", whereArgs: [login]);
     return res.isNotEmpty ? User.fromMap(res.first) : null;
   }
 
-  Future<bool> registrationUser(User user) async {
+  // for test
+  Future<User?> getLastUser() async {
+    final db = await database;
+    var res = await db.query("User");
+    return res.isNotEmpty ? User.fromMap(res.last) : null;
+  }
+
+  Future<bool> addUser(User user) async {
     final db = await database;
     var res =
         await db.query("User", where: "login = ?", whereArgs: [user.login]);

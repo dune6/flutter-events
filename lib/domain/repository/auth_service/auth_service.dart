@@ -12,6 +12,10 @@ class AuthService {
   final _sessionDataProvider = SessionDataProvider();
   final _authApiProvider = AuthAPIProvider();
 
+  Future<User?> getLastUser() async {
+    return await _authApiProvider.getLastUser();
+  }
+
   Future<bool> checkAuth() async {
     final apiKey = await _sessionDataProvider.apiKey();
     if (apiKey != null) {
@@ -37,11 +41,8 @@ class AuthService {
 
   Future<bool> registrationUser(
       String login, String email, String password) async {
-    if (await _authApiProvider.registrationUser(User(
-        id: await _authApiProvider.getLastIndex() + 1,
-        login: login,
-        email: email,
-        password: password))) {
+    if (await _authApiProvider
+        .addUser(User(login: login, email: email, password: password))) {
       return true;
     } else {
       return false;

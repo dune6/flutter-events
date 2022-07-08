@@ -6,7 +6,7 @@ String userToJson(User data) => json.encode(data.toMap());
 
 class User {
   User({
-    required this.id,
+    this.id,
     required this.login,
     required this.email,
     required this.password,
@@ -15,7 +15,7 @@ class User {
     this.telegram = '',
   });
 
-  final int id;
+  final int? id;
   final String login;
   final String email;
   final String password;

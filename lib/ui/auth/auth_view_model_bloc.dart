@@ -103,6 +103,7 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await _authService.registrationUser(
             event.login, event.email, event.password);
+        // если регистрация прошла успешно
         emit(clearStateWithSelect(Constants.loginPageNumber, state));
       } on UserAlreadyExist {
         emit(state.copyWith(

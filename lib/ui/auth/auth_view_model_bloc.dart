@@ -1,5 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
+import 'package:flutter_events/exceptions/auth_exception.dart';
+import 'package:flutter_events/exceptions/db_exceptions.dart';
+import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/events/auth/auth_events.dart';
 import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
 import 'package:flutter_events/exceptions/auth_exception.dart';
@@ -103,7 +106,6 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await _authService.registrationUser(
             event.login, event.email, event.password);
-        // если регистрация прошла успешно
         emit(clearStateWithSelect(Constants.loginPageNumber, state));
       } on UserAlreadyExist {
         emit(state.copyWith(

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_events/resources/strings.dart';
 
 class ErrorTextWidget extends StatelessWidget {
-  const ErrorTextWidget({Key? key}) : super(key: key);
+  final String? errorText;
+
+  const ErrorTextWidget({Key? key, required this.errorText}) : super(key: key);
+
+  static const horizontalPadding = 20.0;
+  static const verticalPadding = 5.0;
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
-      Strings.errorText,
-      style: TextStyle(
-        color: Colors.red,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+          vertical: verticalPadding, horizontal: horizontalPadding),
+      child: Text(
+        errorText ?? '',
+        style: const TextStyle(
+          color: Colors.red,
+        ),
       ),
     );
   }

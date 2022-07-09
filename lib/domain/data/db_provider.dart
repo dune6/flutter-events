@@ -4,11 +4,15 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+/*
+  Класс, который ининциализирует базу данных и даёт к ней доступ
+ */
 class DBProvider {
   static final DBProvider db = DBProvider();
 
   Database? _database;
 
+  // геттер на базу
   Future<Database> get database async {
     if (_database != null) {
       return _database!;
@@ -23,7 +27,6 @@ class DBProvider {
     return await openDatabase(
       path,
       onCreate: (db, version) async {
-        // Run the CREATE TABLE statement on the database.
         return await db.execute(
           'CREATE TABLE User '
           '(id INTEGER PRIMARY KEY AUTOINCREMENT, '

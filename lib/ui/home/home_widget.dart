@@ -7,7 +7,7 @@ import 'package:flutter_events/ui/auth/auth_widget.dart';
 import 'package:flutter_events/ui/home/home_bloc.dart';
 import 'package:flutter_events/ui/splash_screen/splash_bloc.dart';
 
-import '../../events/auth/auth_events.dart';
+import '../auth/auth_events.dart';
 import '../navigation/nav_routes.dart';
 
 class HomeWidget extends StatelessWidget {
@@ -62,11 +62,8 @@ class HomeWidget extends StatelessWidget {
                   });
                 }
               },
-              child: const Text('Home'),
+              child: const Text('Home'), // уберется
             ),
-            ElevatedButton(
-                onPressed: () => bloc.add(CheckLastIdUser()),
-                child: const Text('check last id')),
           ],
         ),
       ),

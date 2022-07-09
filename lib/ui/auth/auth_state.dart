@@ -10,6 +10,8 @@ class AuthState {
   final String password;
   final String secondPassword;
   final bool validation; // состояние валидации после нажатия на кнопку
+  final String
+      validationTextError; // состояние валидации после нажатия на кнопку
   final bool isAgreeSwitch;
   final bool successAuthed;
 
@@ -20,6 +22,7 @@ class AuthState {
     this.password = '',
     this.secondPassword = '',
     this.validation = true,
+    this.validationTextError = '',
     this.isAgreeSwitch = false,
     this.successAuthed = false,
   });
@@ -31,6 +34,7 @@ class AuthState {
     String? password,
     String? secondPassword,
     bool? validation,
+    String? validationTextError,
     bool? isAgreeSwitch,
     bool? successAuthed,
   }) {
@@ -41,6 +45,7 @@ class AuthState {
         password: password ?? this.password,
         secondPassword: secondPassword ?? this.secondPassword,
         validation: validation ?? this.validation,
+        validationTextError: validationTextError ?? this.validationTextError,
         isAgreeSwitch: isAgreeSwitch ?? this.isAgreeSwitch,
         successAuthed: successAuthed ?? this.successAuthed);
   }

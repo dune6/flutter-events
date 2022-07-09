@@ -4,20 +4,17 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
 import 'package:meta/meta.dart';
 
+import '../../exceptions/home_exceptions.dart';
+
 part 'home_event.dart';
 
 part 'home_state.dart';
-
-abstract class HomeException {}
-
-class LogoutException extends HomeException {}
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final AuthService _authService = AuthService();
 
   HomeBloc(HomeState init) : super(init) {
     on<LogoutEventHome>((event, emit) => logout(emit));
-    on<CheckLastIdUser>((event, emit) => checkIdLastRegisterUser());
   }
 
   Future<void> logout(Emitter emit) async {
@@ -27,10 +24,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     } else {
       throw LogoutException();
     }
-  }
-
-  Future<void> checkIdLastRegisterUser() async {
-    print((await _authService.getLastUser())?.id);
-    print(state.isAuth);
   }
 }

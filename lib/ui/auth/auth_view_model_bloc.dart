@@ -1,8 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
-import 'package:flutter_events/events/auth/auth_events.dart';
+import 'package:flutter_events/exceptions/auth_exception.dart';
+import 'package:flutter_events/exceptions/db_exceptions.dart';
+import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
 
+import '../../resources/strings.dart';
 import 'auth_state.dart';
 
 class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
@@ -67,11 +70,21 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> onLoginButtonPressed(LoginEvent event, Emitter emit) async {
     if (validateLogin(event.login) && validatePassword(event.password)) {
       emit(state.copyWith(validation: true));
-      if (await _authService.login(event.login, event.password)) {
+      try {
+        await _authService.login(event.login, event.password);
         emit(state.copyWith(successAuthed: true));
+      } on UserDoesNotExist {
+        emit(state.copyWith(
+            validation: false, validationTextError: Strings.userDoesNotExist));
+      } on LoginPasswordsException {
+        emit(state.copyWith(
+            validation: false,
+            validationTextError: Strings.passwordsException));
       }
     } else {
-      emit(state.copyWith(validation: false));
+      emit(state.copyWith(
+          validation: false,
+          validationTextError: Strings.invalidValidationFields));
     }
   }
 
@@ -85,15 +98,18 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
         event.password == event.secondPassword &&
         state.isAgreeSwitch) {
       emit(state.copyWith(validation: true));
-      if (await _authService.registrationUser(
-          event.login, event.email, event.password)) {
-        // если регистрация прошла успешно
+      try {
+        await _authService.registrationUser(
+            event.login, event.email, event.password);
         emit(clearStateWithSelect(Constants.loginPageNumber, state));
-      } else {
-        emit(state.copyWith(validation: false));
+      } on UserAlreadyExist {
+        emit(state.copyWith(
+            validation: false, validationTextError: Strings.userAlreadyExist));
       }
     } else {
-      emit(state.copyWith(validation: false));
+      emit(state.copyWith(
+          validation: false,
+          validationTextError: Strings.invalidValidationFields));
     }
   }
 

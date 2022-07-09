@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_events/events/auth/auth_events.dart';
+import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/ui/auth/auth_state.dart';
 
 import '../../../resources/strings.dart';

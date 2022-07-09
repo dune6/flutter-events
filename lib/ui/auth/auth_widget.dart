@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_events/events/auth/auth_events.dart';
+import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
 import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/auth/support_widgets/login_page_widget.dart';
@@ -30,7 +29,7 @@ class AuthWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.watch<AuthViewModelBloc>(); // get view model
 
-    // это кажется более изящным, чем 2 больших метода в этом классе
+    // авторизация или регистрация, зависит от toggle button
     Widget contentPage;
     if (bloc.state.select == Constants.loginPageNumber) {
       contentPage = const LoginPageWidget();
@@ -41,7 +40,7 @@ class AuthWidget extends StatelessWidget {
     // пишем об ошибке, если валидация полей не прошла
     Widget validationError = bloc.state.validation
         ? const SizedBox() // по сути пустой пиксель
-        : const ErrorTextWidget();
+        : ErrorTextWidget(errorText: bloc.state.validationTextError);
 
     // адаптивная кнопка авторизации
     Widget textButton = bloc.state.select == Constants.loginPageNumber

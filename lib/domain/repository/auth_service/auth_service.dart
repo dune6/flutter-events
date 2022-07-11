@@ -19,13 +19,8 @@ class AuthService {
     return await _dbRepository.getUserByLogin(await _sessionDataProvider.apiKey());
   }
 
-  Future<bool> checkAuth() async {
-    final apiKey = await _sessionDataProvider.apiKey();
-    if (apiKey != null) {
-      return true;
-    } else {
-      return false;
-    }
+  Future<String> checkAuth() async {
+    return await _sessionDataProvider.apiKey();
   }
 
   Future<void> login(String login, String password) async {

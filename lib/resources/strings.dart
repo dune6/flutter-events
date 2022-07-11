@@ -7,4 +7,11 @@ class Strings {
   static const repeatPassword = 'Повторить пароль';
   static const agreeWithRules = 'Согласен с правилами';
   static const errorText = 'Ошибка валидации полей';
+  static const logout = 'Выйти из аккаунта';
+  static const userAlreadyExist = 'Пользователь уже существует';
+  static const passwordsException = 'Неправильный пароль';
+  static const userDoesNotExist =
+      'Пользователя с таким логином не существует';
+  static const invalidValidationFields =
+      'Допущена ошибка при заполнении полей';
 }

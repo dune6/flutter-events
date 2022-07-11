@@ -1,10 +1,16 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_events/events/auth/auth_events.dart';
+import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
+import 'package:flutter_events/exceptions/auth_exception.dart';
+import 'package:flutter_events/exceptions/db_exceptions.dart';
+import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
 
+import '../../resources/strings.dart';
 import 'auth_state.dart';
 
 class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
+  final _authService = AuthService();
+
   AuthViewModelBloc(AuthState initialState) : super(initialState) {
     on<ChangeToggleButtonEvent>(
         (event, emit) => changeToggleButton(event, emit));
@@ -17,29 +23,17 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginEvent>((event, emit) => onLoginButtonPressed(event, emit));
     on<RegistrationEvent>(
         (event, emit) => onRegistrationButtonPressed(event, emit));
+    on<ChangeAuthedAuth>((event, emit) => changeAuthed(emit));
   }
+
+  void changeAuthed(Emitter emit) => emit(state.copyWith(successAuthed: false));
 
   // обработка состояния при нажати на вход/регистрацию
   void changeToggleButton(ChangeToggleButtonEvent event, Emitter emit) {
     if (event.index == Constants.loginPageNumber) {
-      emit(state.copyWith(
-        // обнуляем состояние при переходах с авторизации на регистрацию и наоборот
-        select: Constants.loginPageNumber,
-        login: '',
-        password: '',
-        validation: true,
-        secondPassword: '',
-        email: '',
-      ));
+      emit(clearStateWithSelect(Constants.loginPageNumber, state));
     } else {
-      emit(state.copyWith(
-          select: Constants.registrationPageNumber,
-          login: '',
-          password: '',
-          validation: true,
-          secondPassword: '',
-          email: '',
-          isAgreeSwitch: false));
+      emit(clearStateWithSelect(Constants.registrationPageNumber, state));
     }
   }
 
@@ -73,26 +67,49 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   // обработка нажатия на кнопку "Вход"
-  void onLoginButtonPressed(LoginEvent event, Emitter emit) {
+  Future<void> onLoginButtonPressed(LoginEvent event, Emitter emit) async {
     if (validateLogin(event.login) && validatePassword(event.password)) {
       emit(state.copyWith(validation: true));
-      // TODO navigate to main screen
+      try {
+        await _authService.login(event.login, event.password);
+        emit(state.copyWith(successAuthed: true));
+      } on UserDoesNotExist {
+        emit(state.copyWith(
+            validation: false, validationTextError: Strings.userDoesNotExist));
+      } on LoginPasswordsException {
+        emit(state.copyWith(
+            validation: false,
+            validationTextError: Strings.passwordsException));
+      }
     } else {
-      emit(state.copyWith(validation: false));
+      emit(state.copyWith(
+          validation: false,
+          validationTextError: Strings.invalidValidationFields));
     }
   }
 
   // обработка нажатия на кнопку "Регистрация"
-  void onRegistrationButtonPressed(RegistrationEvent event, Emitter emit) {
+  Future<void> onRegistrationButtonPressed(
+      RegistrationEvent event, Emitter emit) async {
     if (validateLogin(event.login) &&
         validateEmail(event.email) &&
         validatePassword(event.password) &&
         validatePassword(event.secondPassword) &&
+        event.password == event.secondPassword &&
         state.isAgreeSwitch) {
-      emit(state.copyWith(validation: true, select: 0));
-      // TODO запись в локальное хранилище
+      emit(state.copyWith(validation: true));
+      try {
+        await _authService.registrationUser(
+            event.login, event.email, event.password);
+        emit(clearStateWithSelect(Constants.loginPageNumber, state));
+      } on UserAlreadyExist {
+        emit(state.copyWith(
+            validation: false, validationTextError: Strings.userAlreadyExist));
+      }
     } else {
-      emit(state.copyWith(validation: false));
+      emit(state.copyWith(
+          validation: false,
+          validationTextError: Strings.invalidValidationFields));
     }
   }
 
@@ -116,5 +133,18 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
 
   static bool validatePassword(String value) {
     return (value.isNotEmpty && value.length > 5 && value.length < 12);
+  }
+
+  // helper
+  AuthState clearStateWithSelect(int select, AuthState state) {
+    return state.copyWith(
+      select: select,
+      login: '',
+      password: '',
+      validation: true,
+      secondPassword: '',
+      email: '',
+      isAgreeSwitch: false,
+    );
   }
 }

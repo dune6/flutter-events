@@ -4,3 +4,5 @@ part of 'splash_bloc.dart';
 abstract class SplashEvent {}
 
 class SplashCheckAuth extends SplashEvent {}
+
+class ChangeAuthSplash extends SplashEvent {}

@@ -11,7 +11,7 @@ class SplashWidget extends StatelessWidget {
 
   static Widget create() {
     return BlocProvider(
-      create: (_) => SplashViewModelBloc(const SplashState()),
+      create: (_) => SplashViewModelBloc(const SplashState(isAuth: false)),
       child: const SplashWidget(),
     );
   }
@@ -23,10 +23,14 @@ class SplashWidget extends StatelessWidget {
       body: BlocListener<SplashViewModelBloc, SplashState>(
         listener: (context, state) {
           if (state.isAuth) {
-            // TODO navigation to main screen
+            Timer(const Duration(seconds: 3), () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  NavRoutes.homeRoute, (route) => false);
+            });
           } else {
             Timer(const Duration(seconds: 3), () {
-              Navigator.of(context).pushReplacementNamed(NavRoutes.authRoute);
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  NavRoutes.authRoute, (route) => false);
             });
           }
         },

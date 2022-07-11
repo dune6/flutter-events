@@ -9,6 +9,15 @@ class UserModel {
     this.telegram = '',
   });
 
+  UserModel.emptyUser({
+    this.login = '',
+    this.email = '',
+    this.password = '',
+    this.years = 0,
+    this.gender = '',
+    this.telegram = '',
+  });
+
   final String login;
   final String email;
   final String password;

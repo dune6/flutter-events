@@ -1,4 +1,5 @@
 class Strings {
+  // auth screen
   static const entry = 'Вход';
   static const registration = 'Регистрация';
   static const login = 'Логин';
@@ -7,11 +8,19 @@ class Strings {
   static const repeatPassword = 'Повторить пароль';
   static const agreeWithRules = 'Согласен с правилами';
   static const errorText = 'Ошибка валидации полей';
-  static const logout = 'Выйти из аккаунта';
   static const userAlreadyExist = 'Пользователь уже существует';
   static const passwordsException = 'Неправильный пароль';
-  static const userDoesNotExist =
-      'Пользователя с таким логином не существует';
-  static const invalidValidationFields =
-      'Допущена ошибка при заполнении полей';
+  static const userDoesNotExist = 'Пользователя с таким логином не существует';
+  static const invalidValidationFields = 'Допущена ошибка при заполнении полей';
+
+  // home screen
+  static const userEvents = 'Личные';
+  static const events = 'События';
+  static const account = 'Аккаунт';
+
+  // account screen
+  static const logout = 'Выйти из аккаунта';
+  static const years = 'Возраст';
+  static const gender = 'Пол';
+  static const telegram = 'Телеграм';
 }

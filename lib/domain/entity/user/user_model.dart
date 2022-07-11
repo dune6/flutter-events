@@ -24,4 +24,22 @@ class UserModel {
   final int years;
   final String gender;
   final String telegram;
+
+  static UserModel userModelFromMap(Map<String, dynamic> json) => UserModel(
+        login: json["login"],
+        email: json["email"],
+        password: json["password"],
+        years: json["years"],
+        gender: json["gender"],
+        telegram: json["telegram"],
+      );
+
+  static Map<String, dynamic> userModelToMap(UserModel user) => {
+        "login": user.login,
+        "email": user.email,
+        "password": user.password,
+        "years": user.years,
+        "gender": user.gender,
+        "telegram": user.telegram,
+      };
 }

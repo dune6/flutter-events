@@ -1,6 +1,5 @@
 import 'package:flutter_events/domain/data/db_provider.dart';
 import 'package:flutter_events/domain/entity/user/user_entity.dart';
-import 'package:flutter_events/domain/repository/user/user_repository.dart';
 
 import '../../../exceptions/db_exceptions.dart';
 
@@ -12,7 +11,7 @@ class DBRepository {
     final db = await database;
     var res = await db.query("User", where: "login = ?", whereArgs: [login]);
     return res.isNotEmpty
-        ? UserRepository.userEntityFromMap(res.first)
+        ? UserEntity.userEntityFromMap(res.first)
         : throw UserDoesNotExist();
   }
 

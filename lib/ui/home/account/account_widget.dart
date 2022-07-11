@@ -14,7 +14,8 @@ import '../../splash_screen/splash_bloc.dart';
 class AccountWidget extends StatelessWidget {
   const AccountWidget({Key? key}) : super(key: key);
 
-  static const logoSize = 100.0;
+  static const _logoSize = 100.0;
+  static const _logoPadding = 50.0;
 
   static Widget create() {
     return MultiBlocProvider(
@@ -45,9 +46,9 @@ class AccountWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Padding(
-                  padding: EdgeInsets.all(50.0),
+                  padding: EdgeInsets.all(_logoPadding),
                   child: FlutterLogo(
-                    size: logoSize,
+                    size: _logoSize,
                   )),
               AccountInformationWidget(
                   login: blocAccount.state.userModel.login,

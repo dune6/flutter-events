@@ -17,4 +17,24 @@ class UserEntity {
   final int years;
   final String gender;
   final String telegram;
+
+  static UserEntity userEntityFromMap(Map<String, dynamic> json) => UserEntity(
+        id: json["id"],
+        login: json["login"],
+        email: json["email"],
+        password: json["password"],
+        years: json["years"],
+        gender: json["gender"],
+        telegram: json["telegram"],
+      );
+
+  static Map<String, dynamic> userEntityToMap(UserEntity user) => {
+        "id": user.id,
+        "login": user.login,
+        "email": user.email,
+        "password": user.password,
+        "years": user.years,
+        "gender": user.gender,
+        "telegram": user.telegram,
+      };
 }

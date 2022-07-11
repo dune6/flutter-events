@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../domain/repository/auth_service/auth_service.dart';
+import '../../exceptions/session_provider_exception.dart';
 
 part 'splash_event.dart';
 
@@ -19,9 +20,10 @@ class SplashViewModelBloc extends Bloc<SplashEvent, SplashState> {
   void changeAuthed(Emitter emit) => emit(state.copyWith(isAuth: false));
 
   Future<void> checkAuth(Emitter emit) async {
-    if (await _authService.checkAuth()) {
+    try {
+      await _authService.checkAuth();
       emit(state.copyWith(isAuth: true));
-    } else {
+    } on SessionProviderLoginDoesNotExistException {
       emit(state.copyWith(isAuth: false));
     }
   }

@@ -19,7 +19,7 @@ class App extends StatelessWidget {
       routes: {
         NavRoutes.authRoute: (_) => AuthWidget.create(),
         NavRoutes.splashRoute: (_) => SplashWidget.create(),
-        NavRoutes.homeRoute: (_) => HomeWidget.create(),
+        NavRoutes.homeRoute: (_) => const HomeWidget(),
       },
     );
   }

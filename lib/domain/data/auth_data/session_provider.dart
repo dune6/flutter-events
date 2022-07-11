@@ -1,3 +1,4 @@
+import 'package:flutter_events/exceptions/session_provider_exception.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SessionDataProviderKeys {
@@ -7,8 +8,14 @@ class SessionDataProviderKeys {
 class SessionDataProvider {
   final _secureStorage = const FlutterSecureStorage();
 
-  Future<String?> apiKey() async {
-    return await _secureStorage.read(key: SessionDataProviderKeys._apiKey);
+  Future<String> apiKey() async {
+    final login =
+        await _secureStorage.read(key: SessionDataProviderKeys._apiKey);
+    if (login != null) {
+      return login;
+    } else {
+      throw SessionProviderLoginDoesNotExistException();
+    }
   }
 
   Future<void> saveApiKey(String key) async {

@@ -1,6 +1,18 @@
 part of 'personal_events_bloc.dart';
 
 @immutable
-abstract class PersonalEventsState {}
+class PersonalEventsState {
+  final String findText;
 
-class PersonalEventsInitial extends PersonalEventsState {}
+  const PersonalEventsState({
+    required this.findText,
+  });
+
+  PersonalEventsState copyWith({
+    String? findText,
+  }) {
+    return PersonalEventsState(
+      findText: findText ?? this.findText,
+    );
+  }
+}

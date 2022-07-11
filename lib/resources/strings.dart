@@ -18,6 +18,11 @@ class Strings {
   static const events = 'События';
   static const account = 'Аккаунт';
 
+  // events screen
+  static const findEvents = 'Найти события';
+
+  //personal events screen
+
   // account screen
   static const logout = 'Выйти из аккаунта';
   static const years = 'Возраст';

@@ -1,6 +1,6 @@
-import 'package:flutter_events/domain/entity/user_model.dart';
+import 'package:flutter_events/domain/entity/user/user_model.dart';
 
-import '../../entity/user_entity.dart';
+import '../../entity/user/user_entity.dart';
 
 class UserRepository {
   static UserEntity userEntityFromMap(Map<String, dynamic> json) => UserEntity(
@@ -40,6 +40,16 @@ class UserRepository {
         "gender": user.gender,
         "telegram": user.telegram,
       };
+
+  static UserModel userEntityToUserModel(UserEntity userEntity) {
+    return UserModel(
+        login: userEntity.login,
+        email: userEntity.email,
+        password: userEntity.password,
+        years: userEntity.years,
+        gender: userEntity.gender,
+        telegram: userEntity.telegram);
+  }
 
 // for UserResponse
 // String userToJson(UserEntity user) => json.encode(userEntityToMap(user));

@@ -53,25 +53,11 @@ class _HomeWidgetState extends State<HomeWidget>
       ),
       body: Center(
         child: TabBarView(controller: tabController, children: [
-          PersonalEventsWidget(),
-          EventsWidget(),
+          PersonalEventsWidget.create(),
+          EventsWidget.create(),
           AccountWidget.create(),
         ]),
       ),
     );
   }
 }
-
-// Column(
-// mainAxisAlignment: MainAxisAlignment.center,
-// children: [
-//
-// child: const Text('Home'), // уберется
-// ),
-//
-// ],
-// ),
-
-// actions: [
-
-// ],

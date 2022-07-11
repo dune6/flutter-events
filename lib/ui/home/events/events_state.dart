@@ -1,6 +1,18 @@
 part of 'events_bloc.dart';
 
 @immutable
-abstract class EventsState {}
+class EventsState {
+  final String findText;
 
-class EventsInitial extends EventsState {}
+  const EventsState({
+    required this.findText,
+  });
+
+  EventsState copyWith({
+    String? findText,
+  }) {
+    return EventsState(
+      findText: findText ?? this.findText,
+    );
+  }
+}

@@ -12,6 +12,7 @@ class EventsWidget extends StatelessWidget {
 
   static const _topInputPadding = 10.0;
   static const _topListPadding = 15.0;
+  static const _separatedHeight = 10.0;
 
   static Widget create() {
     return BlocProvider(
@@ -40,7 +41,7 @@ class EventsWidget extends StatelessWidget {
             child: ListView.separated(
               itemCount: 20,
               separatorBuilder: (_, index) => const Divider(
-                height: 10,
+                height: _separatedHeight,
               ),
               itemBuilder: (BuildContext context, int index) {
                 return const EventWidget(

@@ -12,10 +12,12 @@ class EventWidget extends StatelessWidget {
       required this.dateTime})
       : super(key: key);
 
+  static const _eventHorizontalPadding = 15.0;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
+      padding: const EdgeInsets.symmetric(horizontal: _eventHorizontalPadding),
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,

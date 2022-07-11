@@ -4,7 +4,6 @@ import 'package:flutter_events/domain/data/auth_data/database_repository.dart';
 import 'package:flutter_events/domain/data/auth_data/session_provider.dart';
 import 'package:flutter_events/domain/entity/user/user_entity.dart';
 import 'package:flutter_events/domain/entity/user/user_model.dart';
-import 'package:flutter_events/domain/repository/user/user_repository.dart';
 
 import '../../../exceptions/auth_exception.dart';
 
@@ -16,7 +15,8 @@ class AuthService {
   final _dbRepository = DBRepository();
 
   Future<UserEntity> getUserByApiKey() async {
-    return await _dbRepository.getUserByLogin(await _sessionDataProvider.apiKey());
+    return await _dbRepository
+        .getUserByLogin(await _sessionDataProvider.apiKey());
   }
 
   Future<String> checkAuth() async {
@@ -34,7 +34,7 @@ class AuthService {
 
   Future<void> registrationUser(
       String login, String email, String password) async {
-    await _dbRepository.addUser(UserRepository.userModelToMap(
+    await _dbRepository.addUser(UserModel.userModelToMap(
         UserModel(login: login, email: email, password: password)));
   }
 

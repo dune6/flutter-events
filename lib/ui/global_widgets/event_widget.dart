@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_events/ui/home/events/events_view_model.dart';
 
-class EventWidget extends StatelessWidget {
+class EventWidget<EventT, BlocT extends Bloc> extends StatelessWidget {
   final String name;
   final String place;
   final String dateTime;
+  final EventT event;
+  final BlocT bloc;
 
   const EventWidget(
       {Key? key,
       required this.name,
       required this.place,
-      required this.dateTime})
+      required this.dateTime,
+      required this.event,
+      required this.bloc})
       : super(key: key);
 
   static const _eventHorizontalPadding = 15.0;
@@ -32,14 +38,32 @@ class EventWidget extends StatelessWidget {
           ],
         ),
         clipBehavior: Clip.hardEdge,
-        child: Column(
-          children: [
-            Text(name),
-            Text(place),
-            Text(dateTime),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                children: [
+                  Text(name),
+                  Text(place),
+                  Text(dateTime),
+                ],
+              ),
+              customIcon()
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget customIcon() {
+    return GestureDetector(
+      onTap: () => bloc.add(event),
+      child: bloc is EventsViewModel
+          ? const Icon(Icons.add_box_outlined)
+          : const Icon(Icons.delete_outline),
     );
   }
 }

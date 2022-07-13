@@ -2,15 +2,17 @@ import 'package:flutter_events/exceptions/session_provider_exception.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SessionDataProviderKeys {
-  static const _apiKey = 'api_key';
+  static const _login = 'login';
 }
 
 class SessionDataProvider {
-  final _secureStorage = const FlutterSecureStorage();
+  final FlutterSecureStorage secureStorage;
 
-  Future<String> apiKey() async {
+  SessionDataProvider({required this.secureStorage});
+
+  Future<String> getUserLogin() async {
     final login =
-        await _secureStorage.read(key: SessionDataProviderKeys._apiKey);
+        await secureStorage.read(key: SessionDataProviderKeys._login);
     if (login != null) {
       return login;
     } else {
@@ -18,12 +20,11 @@ class SessionDataProvider {
     }
   }
 
-  Future<void> saveApiKey(String key) async {
-    await _secureStorage.write(
-        key: SessionDataProviderKeys._apiKey, value: key);
+  Future<void> saveLoginKey(String key) async {
+    await secureStorage.write(key: SessionDataProviderKeys._login, value: key);
   }
 
-  Future<void> clearApiKey() async {
-    await _secureStorage.delete(key: SessionDataProviderKeys._apiKey);
+  Future<void> clearLoginKey() async {
+    await secureStorage.delete(key: SessionDataProviderKeys._login);
   }
 }

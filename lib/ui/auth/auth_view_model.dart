@@ -8,10 +8,10 @@ import 'package:flutter_events/resources/constants.dart';
 
 import 'auth_state.dart';
 
-class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
-  final _authService = AuthService();
+class AuthViewModel extends Bloc<AuthEvent, AuthState> {
+  final AuthService authService;
 
-  AuthViewModelBloc(AuthState initialState) : super(initialState) {
+  AuthViewModel(AuthState initialState, {required this.authService}) : super(initialState) {
     on<ChangeToggleButtonEvent>(
         (event, emit) => changeToggleButton(event, emit));
     on<ChangeLoginEvent>((event, emit) => changeLogin(event, emit));
@@ -71,7 +71,7 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
     if (validateLogin(event.login) && validatePassword(event.password)) {
       emit(state.copyWith(validation: true));
       try {
-        await _authService.login(event.login, event.password);
+        await authService.login(event.login, event.password);
         emit(state.copyWith(successAuthed: true));
       } on UserDoesNotExist {
         emit(state.copyWith(
@@ -99,7 +99,7 @@ class AuthViewModelBloc extends Bloc<AuthEvent, AuthState> {
         state.isAgreeSwitch) {
       emit(state.copyWith(validation: true));
       try {
-        await _authService.registrationUser(
+        await authService.registrationUser(
             event.login, event.email, event.password);
         emit(clearStateWithSelect(Constants.loginPageNumber, state));
       } on UserAlreadyExist {

@@ -1,4 +1,4 @@
-// уровень UI, ViewModel
+// уровень API
 class EventResponse {
   EventResponse({
     required this.text,

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
 import 'package:flutter_events/resources/strings.dart';
-import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
+import 'package:flutter_events/ui/auth/auth_view_model.dart';
 import 'package:flutter_events/ui/global_widgets/input_text_widget.dart';
 import 'package:flutter_events/ui/navigation/nav_routes.dart';
 
@@ -12,7 +12,7 @@ class LoginPageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<AuthViewModelBloc>();
+    final bloc = context.watch<AuthViewModel>();
 
     if (bloc.state.successAuthed) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

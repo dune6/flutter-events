@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
-import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
+import 'package:flutter_events/ui/auth/auth_view_model.dart';
 
 class ToggleButtonsWidget extends StatefulWidget {
   const ToggleButtonsWidget({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class ToggleButtonsState extends State<ToggleButtonsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<AuthViewModelBloc>(); // read viewModel
+    final bloc = context.watch<AuthViewModel>(); // read viewModel
 
     var arrSelected = [false, true];
     if (bloc.state.select == Constants.registrationPageNumber) {

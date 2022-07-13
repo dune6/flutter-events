@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/ui/auth/auth_events.dart';
-import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
+import 'package:flutter_events/ui/auth/auth_view_model.dart';
 
 class TextButtonWidget<T extends AuthEvent> extends StatelessWidget {
   final T event;
@@ -12,7 +12,7 @@ class TextButtonWidget<T extends AuthEvent> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<AuthViewModelBloc>();
+    final bloc = context.read<AuthViewModel>();
 
     return TextButton(onPressed: () => bloc.add(event), child: Text(text));
   }

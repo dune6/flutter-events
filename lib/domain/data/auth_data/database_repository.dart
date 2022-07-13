@@ -4,10 +4,12 @@ import 'package:flutter_events/exceptions/db_exceptions.dart';
 
 class DBRepository {
   // init database
-  final database = DBProvider().database;
+  final DBProvider dbProvider;
+
+  DBRepository({required this.dbProvider});
 
   Future<UserEntity> getUserByLogin(String login) async {
-    final db = await database;
+    final db = await dbProvider.database;
     var res = await db.query("User", where: "login = ?", whereArgs: [login]);
     return res.isNotEmpty
         ? UserEntity.userEntityFromMap(res.first)
@@ -15,7 +17,7 @@ class DBRepository {
   }
 
   Future<void> addUser(Map<String, dynamic> userMap) async {
-    final db = await database;
+    final db = await dbProvider.database;
     var res = await db.query("User",
         where: "login = ?", whereArgs: [userMap['login'] as String]);
     if (res.isNotEmpty) {
@@ -26,7 +28,7 @@ class DBRepository {
   }
 
   Future<void> updateUser(Map<String, dynamic> userMap) async {
-    final db = await database;
+    final db = await dbProvider.database;
     await db.update(
       'User',
       userMap,

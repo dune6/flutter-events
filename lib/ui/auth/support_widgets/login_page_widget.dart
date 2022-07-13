@@ -5,8 +5,7 @@ import 'package:flutter_events/resources/constants.dart';
 import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
 import 'package:flutter_events/ui/global_widgets/input_text_widget.dart';
-
-import '../../navigation/nav_routes.dart';
+import 'package:flutter_events/ui/navigation/nav_routes.dart';
 
 class LoginPageWidget extends StatelessWidget {
   const LoginPageWidget({Key? key}) : super(key: key);

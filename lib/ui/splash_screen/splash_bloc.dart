@@ -1,8 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
+import 'package:flutter_events/exceptions/session_provider_exception.dart';
 import 'package:meta/meta.dart';
-
-import '../../domain/repository/auth_service/auth_service.dart';
-import '../../exceptions/session_provider_exception.dart';
 
 part 'splash_event.dart';
 

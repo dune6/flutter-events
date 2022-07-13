@@ -1,7 +1,6 @@
 import 'package:flutter_events/domain/data/db_provider.dart';
 import 'package:flutter_events/domain/entity/user/user_entity.dart';
-
-import '../../../exceptions/db_exceptions.dart';
+import 'package:flutter_events/exceptions/db_exceptions.dart';
 
 class DBRepository {
   // init database

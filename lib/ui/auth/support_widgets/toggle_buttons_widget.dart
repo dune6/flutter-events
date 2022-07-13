@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
-
-import '../../../resources/strings.dart';
-import '../auth_view_model_bloc.dart';
+import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
 
 class ToggleButtonsWidget extends StatefulWidget {
   const ToggleButtonsWidget({Key? key}) : super(key: key);

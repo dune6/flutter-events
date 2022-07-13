@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/resources/constants.dart';
+import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/global_widgets/event_widget.dart';
 import 'package:flutter_events/ui/global_widgets/input_text_widget.dart';
 import 'package:flutter_events/ui/home/events/events_bloc.dart';
-
-import '../../../resources/strings.dart';
 
 class EventsWidget extends StatelessWidget {
   const EventsWidget({Key? key}) : super(key: key);

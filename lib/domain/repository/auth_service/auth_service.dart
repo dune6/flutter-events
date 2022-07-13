@@ -4,8 +4,7 @@ import 'package:flutter_events/domain/data/auth_data/database_repository.dart';
 import 'package:flutter_events/domain/data/auth_data/session_provider.dart';
 import 'package:flutter_events/domain/entity/user/user_entity.dart';
 import 'package:flutter_events/domain/entity/user/user_model.dart';
-
-import '../../../exceptions/auth_exception.dart';
+import 'package:flutter_events/exceptions/auth_exception.dart';
 
 /*
   Сервис для работы с репозиториями

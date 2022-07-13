@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/ui/auth/auth_state.dart';
-
-import '../../../resources/strings.dart';
-import '../auth_view_model_bloc.dart';
+import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
 
 class AgreeWithRules extends StatefulWidget {
   const AgreeWithRules({Key? key}) : super(key: key);

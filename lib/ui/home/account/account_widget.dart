@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/domain/entity/user/user_model.dart';
+import 'package:flutter_events/resources/strings.dart';
+import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/ui/auth/auth_state.dart';
+import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
 import 'package:flutter_events/ui/home/account/account_bloc.dart';
 import 'package:flutter_events/ui/home/account/support_widgets/account_information_widget.dart';
-
-import '../../../resources/strings.dart';
-import '../../auth/auth_events.dart';
-import '../../auth/auth_view_model_bloc.dart';
-import '../../navigation/nav_routes.dart';
-import '../../splash_screen/splash_bloc.dart';
+import 'package:flutter_events/ui/navigation/nav_routes.dart';
+import 'package:flutter_events/ui/splash_screen/splash_bloc.dart';
 
 class AccountWidget extends StatelessWidget {
   const AccountWidget({Key? key}) : super(key: key);

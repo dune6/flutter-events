@@ -3,11 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
 import 'package:flutter_events/resources/strings.dart';
+import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
 import 'package:flutter_events/ui/auth/auth_widget.dart';
 import 'package:flutter_events/ui/auth/support_widgets/switcher_rules_widget.dart';
 import 'package:flutter_events/ui/global_widgets/input_text_widget.dart';
-
-import '../auth_view_model_bloc.dart';
 
 class RegistrationPageWidget extends StatelessWidget {
   const RegistrationPageWidget({Key? key}) : super(key: key);

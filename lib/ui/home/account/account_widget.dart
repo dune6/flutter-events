@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_events/domain/entity/user/user_model.dart';
 import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/auth/auth_events.dart';
-import 'package:flutter_events/ui/auth/auth_state.dart';
-import 'package:flutter_events/ui/auth/auth_view_model_bloc.dart';
-import 'package:flutter_events/ui/home/account/account_bloc.dart';
+import 'package:flutter_events/ui/auth/auth_view_model.dart';
+import 'package:flutter_events/ui/home/account/account_view_model.dart';
 import 'package:flutter_events/ui/home/account/support_widgets/account_information_widget.dart';
 import 'package:flutter_events/ui/navigation/nav_routes.dart';
-import 'package:flutter_events/ui/splash_screen/splash_bloc.dart';
+import 'package:flutter_events/ui/splash_screen/splash_view_model.dart';
 
 class AccountWidget extends StatelessWidget {
   const AccountWidget({Key? key}) : super(key: key);
@@ -16,62 +14,64 @@ class AccountWidget extends StatelessWidget {
   static const _logoSize = 100.0;
   static const _logoPadding = 50.0;
 
-  static Widget create() {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-            create: (_) =>
-                SplashViewModelBloc(const SplashState(isAuth: true))),
-        BlocProvider(create: (_) => AuthViewModelBloc(const AuthState())),
-        BlocProvider(
-            create: (_) => AccountViewModelBloc(
-                AccountState(isAuth: true, userModel: UserModel.emptyUser()))
-              ..add(AccountGetUserEvent())), // init user from db
-      ],
-      child: const AccountWidget(),
-    );
-  }
+  // static Widget create() {
+  //   return MultiBlocProvider(
+  //     providers: [
+  //       BlocProvider(
+  //           create: (_) => SplashViewModel(const SplashState(isAuth: true),
+  //               authService: GlobalFactory().authService())),
+  //       BlocProvider(
+  //           create: (_) => AuthViewModel(const AuthState(),
+  //               authService: GlobalFactory().authService())),
+  //       BlocProvider(
+  //           create: (_) => AccountViewModel(
+  //               AccountState(isAuth: true, userModel: UserModel.emptyUser()),
+  //               authService: GlobalFactory().authService())
+  //             ..add(AccountGetUserEvent())), // init user from db
+  //     ],
+  //     child: const AccountWidget(),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final blocAccount = context.watch<AccountViewModelBloc>();
-    final blocAuth = context.read<AuthViewModelBloc>();
-    final blocSplash = context.read<SplashViewModelBloc>();
+    final accountViewModelBloc = context.watch<AccountViewModel>();
+    final authViewModelBloc = context.read<AuthViewModel>();
+    final splashViewModelBloc = context.read<SplashViewModel>();
 
     return Scaffold(
       body: Center(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                  padding: EdgeInsets.all(_logoPadding),
-                  child: FlutterLogo(
-                    size: _logoSize,
-                  )),
-              AccountInformationWidget(
-                  login: blocAccount.state.userModel.login,
-                  email: blocAccount.state.userModel.email,
-                  years: blocAccount.state.userModel.years,
-                  gender: blocAccount.state.userModel.gender,
-                  telegram: blocAccount.state.userModel.telegram),
-              BlocListener<AccountViewModelBloc, AccountState>(
-                listener: (context, state) {
-                  if (state.isAuth == false) {
-                    blocAuth.add(ChangeAuthedAuth());
-                    blocSplash.add(ChangeAuthSplash());
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          NavRoutes.authRoute, (route) => false);
-                    });
-                  }
-                },
-                child: ElevatedButton(
-                    onPressed: () => blocAccount.add(AccountLogoutEvent()),
-                    child: const Text(Strings.logout)),
-              ),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Padding(
+                padding: EdgeInsets.all(_logoPadding),
+                child: FlutterLogo(
+                  size: _logoSize,
+                )),
+            AccountInformationWidget(
+                login: accountViewModelBloc.state.userModel.login,
+                email: accountViewModelBloc.state.userModel.email,
+                years: accountViewModelBloc.state.userModel.years,
+                gender: accountViewModelBloc.state.userModel.gender,
+                telegram: accountViewModelBloc.state.userModel.telegram),
+            BlocListener<AccountViewModel, AccountState>(
+              listener: (context, state) {
+                if (state.isAuth == false) {
+                  authViewModelBloc.add(ChangeAuthedAuth());
+                  splashViewModelBloc.add(ChangeAuthSplash());
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        NavRoutes.authRoute, (route) => false);
+                  });
+                }
+              },
+              child: ElevatedButton(
+                  onPressed: () =>
+                      accountViewModelBloc.add(AccountLogoutEvent()),
+                  child: const Text(Strings.logout)),
+            ),
+          ],
         ),
       ),
     );

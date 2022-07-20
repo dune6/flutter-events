@@ -11,17 +11,18 @@ part 'account_events.dart';
 
 part 'account_state.dart';
 
-class AccountViewModelBloc extends Bloc<AccountEvent, AccountState> {
-  final AuthService _authService = AuthService();
+class AccountViewModel extends Bloc<AccountEvent, AccountState> {
+  final AuthService authService;
 
-  AccountViewModelBloc(AccountState init) : super(init) {
+  AccountViewModel(AccountState init, {required this.authService})
+      : super(init) {
     on<AccountLogoutEvent>((event, emit) => logout(emit));
     on<AccountGetUserEvent>((event, emit) => getUser(emit));
   }
 
   Future<void> logout(Emitter emit) async {
     if (state.isAuth == true) {
-      await _authService.logout();
+      await authService.logout();
       emit(state.copyWith(isAuth: false));
     } else {
       throw AccountLogoutException();
@@ -29,7 +30,7 @@ class AccountViewModelBloc extends Bloc<AccountEvent, AccountState> {
   }
 
   Future<void> getUser(Emitter emit) async {
-    final userEntity = await _authService.getUserByApiKey();
+    final userEntity = await authService.currentUser();
     final userModel = UserRepository.userEntityToUserModel(userEntity);
     emit(state.copyWith(userModel: userModel));
   }

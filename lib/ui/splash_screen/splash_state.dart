@@ -1,4 +1,4 @@
-part of 'splash_bloc.dart';
+part of 'splash_view_model.dart';
 
 @immutable
 class SplashState {

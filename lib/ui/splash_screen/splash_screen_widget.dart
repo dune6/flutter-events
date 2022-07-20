@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_events/di/global_factory.dart';
 import 'package:flutter_events/ui/navigation/nav_routes.dart';
-import 'package:flutter_events/ui/splash_screen/splash_bloc.dart';
+import 'package:flutter_events/ui/splash_screen/splash_view_model.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SplashWidget extends StatelessWidget {
@@ -11,7 +12,8 @@ class SplashWidget extends StatelessWidget {
 
   static Widget create() {
     return BlocProvider(
-      create: (_) => SplashViewModelBloc(const SplashState(isAuth: false)),
+      create: (_) => SplashViewModel(const SplashState(isAuth: false),
+          authService: GlobalFactory().authService()),
       child: const SplashWidget(),
     );
   }
@@ -20,7 +22,7 @@ class SplashWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocListener<SplashViewModelBloc, SplashState>(
+      body: BlocListener<SplashViewModel, SplashState>(
         listener: (context, state) {
           if (state.isAuth) {
             Timer(const Duration(seconds: 3), () {

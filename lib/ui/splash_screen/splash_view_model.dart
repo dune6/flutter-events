@@ -7,10 +7,10 @@ part 'splash_event.dart';
 
 part 'splash_state.dart';
 
-class SplashViewModelBloc extends Bloc<SplashEvent, SplashState> {
-  final AuthService _authService = AuthService();
+class SplashViewModel extends Bloc<SplashEvent, SplashState> {
+  final AuthService authService;
 
-  SplashViewModelBloc(SplashState initial) : super(initial) {
+  SplashViewModel(SplashState initial, {required this.authService}) : super(initial) {
     on<SplashCheckAuth>((event, emit) => checkAuth(emit));
     on<ChangeAuthSplash>((event, emit) => changeAuthed(emit));
     add(SplashCheckAuth()); // вызываем проверку авторизации при создании блока
@@ -20,7 +20,7 @@ class SplashViewModelBloc extends Bloc<SplashEvent, SplashState> {
 
   Future<void> checkAuth(Emitter emit) async {
     try {
-      await _authService.checkAuth();
+      await authService.checkAuth();
       emit(state.copyWith(isAuth: true));
     } on SessionProviderLoginDoesNotExistException {
       emit(state.copyWith(isAuth: false));

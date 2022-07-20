@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_events/di/global_factory.dart';
 import 'package:flutter_events/ui/auth/auth_events.dart';
 import 'package:flutter_events/resources/constants.dart';
 import 'package:flutter_events/resources/strings.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_events/ui/auth/support_widgets/toggle_buttons_widget.dar
 import 'package:flutter_events/ui/global_widgets/error_text_widget.dart';
 
 import 'auth_state.dart';
-import 'auth_view_model_bloc.dart';
+import 'auth_view_model.dart';
 
 class AuthWidget extends StatelessWidget {
   // constants
@@ -20,37 +21,44 @@ class AuthWidget extends StatelessWidget {
 
   static Widget create() {
     return BlocProvider(
-      create: (_) => AuthViewModelBloc(const AuthState()),
+      create: (_) => AuthViewModel(const AuthState(),
+          authService: GlobalFactory().authService()),
       child: const AuthWidget(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.watch<AuthViewModelBloc>(); // get view model
+    final authViewModelBloc = context.watch<AuthViewModel>(); // get view model
 
     // авторизация или регистрация, зависит от toggle button
     Widget contentPage;
-    if (bloc.state.select == Constants.loginPageNumber) {
+    if (authViewModelBloc.state.select == Constants.loginPageNumber) {
       contentPage = const LoginPageWidget();
     } else {
       contentPage = const RegistrationPageWidget();
     }
 
     // пишем об ошибке, если валидация полей не прошла
-    Widget validationError = bloc.state.validation
+    Widget validationError = authViewModelBloc.state.validation
         ? const SizedBox() // по сути пустой пиксель
-        : ErrorTextWidget(errorText: bloc.state.validationTextError);
+        : ErrorTextWidget(
+            errorText: authViewModelBloc.state.validationTextError);
 
     // адаптивная кнопка авторизации
-    Widget textButton = bloc.state.select == Constants.loginPageNumber
-        ? TextButtonWidget<LoginEvent>(
-            event: LoginEvent(bloc.state.login, bloc.state.password),
-            text: Strings.entry)
-        : TextButtonWidget<RegistrationEvent>(
-            event: RegistrationEvent(bloc.state.login, bloc.state.email,
-                bloc.state.password, bloc.state.secondPassword),
-            text: Strings.registration);
+    Widget textButton =
+        authViewModelBloc.state.select == Constants.loginPageNumber
+            ? TextButtonWidget<LoginEvent>(
+                event: LoginEvent(authViewModelBloc.state.login,
+                    authViewModelBloc.state.password),
+                text: Strings.entry)
+            : TextButtonWidget<RegistrationEvent>(
+                event: RegistrationEvent(
+                    authViewModelBloc.state.login,
+                    authViewModelBloc.state.email,
+                    authViewModelBloc.state.password,
+                    authViewModelBloc.state.secondPassword),
+                text: Strings.registration);
 
     // ui
     return Scaffold(

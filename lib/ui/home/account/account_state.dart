@@ -1,4 +1,4 @@
-part of 'account_bloc.dart';
+part of 'account_view_model.dart';
 
 @immutable
 class AccountState {

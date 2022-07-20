@@ -1,11 +1,13 @@
-import 'package:flutter_events/domain/entity/event/event_response.dart';
+import 'package:flutter/services.dart';
 
 class EventsApiProvider {
-  // https://platform.seatgeek.com
+  final String jsonPath;
 
-  // mock events
-  // Future<List<EventResponse>> getEvents() async {
-  //   return List.generate(10, (index) => EventResponse(text: text, place: place, time: time));
-  // }
+  EventsApiProvider({required this.jsonPath});
 
+  Future<String> readEvents() async {
+    return await rootBundle
+        .loadString(jsonPath)
+        .whenComplete(() => Future.delayed(const Duration(seconds: 2)));
+  }
 }

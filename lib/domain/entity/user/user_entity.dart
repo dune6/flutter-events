@@ -1,4 +1,9 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'user_entity.g.dart';
+
 // сущность уровня базы данных
+@JsonSerializable()
 class UserEntity {
   UserEntity({
     this.id,
@@ -8,6 +13,7 @@ class UserEntity {
     this.years = 0,
     this.gender = '',
     this.telegram = '',
+    this.jsonPersonalEvents = '',
   });
 
   final int? id;
@@ -17,16 +23,39 @@ class UserEntity {
   final int years;
   final String gender;
   final String telegram;
+  final String jsonPersonalEvents;
+
+  UserEntity copyWith({
+    int? id,
+    String? login,
+    String? email,
+    String? password,
+    int? years,
+    String? gender,
+    String? telegram,
+    String? jsonPersonalEvents,
+  }) {
+    return UserEntity(
+      id: id ?? this.id,
+      login: login ?? this.login,
+      email: email ?? this.email,
+      password: password ?? this.password,
+      years: years ?? this.years,
+      gender: gender ?? this.gender,
+      telegram: telegram ?? this.telegram,
+      jsonPersonalEvents: jsonPersonalEvents ?? this.jsonPersonalEvents,
+    );
+  }
 
   static UserEntity userEntityFromMap(Map<String, dynamic> json) => UserEntity(
-        id: json["id"],
-        login: json["login"],
-        email: json["email"],
-        password: json["password"],
-        years: json["years"],
-        gender: json["gender"],
-        telegram: json["telegram"],
-      );
+      id: json["id"],
+      login: json["login"],
+      email: json["email"],
+      password: json["password"],
+      years: json["years"],
+      gender: json["gender"],
+      telegram: json["telegram"],
+      jsonPersonalEvents: json["jsonPersonalEvents"]);
 
   static Map<String, dynamic> userEntityToMap(UserEntity user) => {
         "id": user.id,
@@ -36,5 +65,11 @@ class UserEntity {
         "years": user.years,
         "gender": user.gender,
         "telegram": user.telegram,
+        "jsonPersonalEvents": user.jsonPersonalEvents,
       };
+
+  factory UserEntity.fromJson(Map<String, dynamic> json) =>
+      _$UserEntityFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserEntityToJson(this);
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_events/domain/data/auth_data/database_repository.dart';
 import 'package:flutter_events/domain/data/auth_data/session_provider.dart';
+import 'package:flutter_events/domain/entity/event/event_model.dart';
 import 'package:flutter_events/domain/entity/user/user_entity.dart';
 import 'package:flutter_events/domain/entity/user/user_model.dart';
 import 'package:flutter_events/domain/repository/user/user_repository.dart';
@@ -50,5 +51,14 @@ class AuthService {
         years: userEntityFromModel.years,
         gender: userEntityFromModel.gender);
     await dbRepository.updateUser(userEntityFromDB.toJson());
+  }
+
+  Future<void> addEventToFavourite(EventModel eventModel) async {
+    final userEntity = await currentUser();
+    final userModel = UserRepository.userEntityToUserModel(userEntity);
+    if (!userModel.personalEvents.contains(eventModel)) {
+      userModel.personalEvents.add(eventModel);
+      await updateUserInfo(userModel);
+    } else {}
   }
 }

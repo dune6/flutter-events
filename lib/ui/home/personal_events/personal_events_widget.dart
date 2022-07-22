@@ -20,7 +20,7 @@ class PersonalEventsWidget extends StatelessWidget {
               findText: '', events: [], filteredEvents: []),
           authService: GlobalFactory().authService())
         ..add(GetAccountEventsEvent())
-        ..add(ChangeFindInputPersonalEvent('')),
+        ..add(ChangeInputEvent('')),
       child: const PersonalEventsWidget(),
     );
   }
@@ -37,7 +37,7 @@ class PersonalEventsWidget extends StatelessWidget {
             child: InputText(
                 name: Strings.findEvents,
                 func: (text) =>
-                    eventsViewModelBloc.add(ChangeFindInputPersonalEvent(text)),
+                    eventsViewModelBloc.add(ChangeInputEvent(text)),
                 obscureText: Constants.notObscure),
           ),
           Expanded(

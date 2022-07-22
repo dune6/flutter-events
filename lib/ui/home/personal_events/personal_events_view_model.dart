@@ -15,14 +15,13 @@ class PersonalEventsViewModel
   PersonalEventsViewModel(PersonalEventsState personalEventsState,
       {required this.authService})
       : super(personalEventsState) {
-    on<ChangeFindInputPersonalEvent>(
-        (event, emit) => changeFindInputText(event, emit));
+    on<ChangeInputEvent>((event, emit) => changeFindInputText(event, emit));
     on<DeleteEvent>((event, emit) => deleteBloc(event, emit));
     on<GetAccountEventsEvent>((event, emit) => getUserEvents(emit));
   }
 
   // обработка ввода текста в форме find event
-  void changeFindInputText(ChangeFindInputPersonalEvent event, Emitter emit) {
+  void changeFindInputText(ChangeInputEvent event, Emitter emit) {
     if (state.findText == event.text) {
       return;
     }

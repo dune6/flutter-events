@@ -28,4 +28,16 @@ class Strings {
   static const years = 'Возраст';
   static const gender = 'Пол';
   static const telegram = 'Телеграм';
+  static const String change = 'изм.';
+  static const String selectAge = 'Выберите свой возраст:';
+  static const String selectGender = 'Выберите свой пол:';
+  static const pickerGender = '''
+  [
+      [
+          "Мужчина",
+          "Женщина",
+          "Другое"
+      ]
+  ]
+      ''';
 }

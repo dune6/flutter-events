@@ -7,8 +7,14 @@ class AccountLogoutEvent extends AccountEvent {}
 
 class AccountGetUserEvent extends AccountEvent {}
 
-class UpdateAgeEvent extends AccountEvent {}
+class UpdateAgeEvent extends AccountEvent {
+  final int age;
 
-class UpdateGenderEvent extends AccountEvent {}
+  UpdateAgeEvent({required this.age});
+}
 
-class UpdateTelegramEvent extends AccountEvent {}
+class UpdateGenderEvent extends AccountEvent {
+  final String gender;
+
+  UpdateGenderEvent({required this.gender});
+}

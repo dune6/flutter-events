@@ -1,22 +1,23 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/home/account/account_view_model.dart';
+import 'package:flutter_picker/Picker.dart';
 
 class AccountInformationWidget extends StatefulWidget {
   final String login;
   final String email;
   final int years;
   final String gender;
-  final String telegram;
 
   const AccountInformationWidget(
       {Key? key,
       required this.login,
       required this.email,
       required this.years,
-      required this.gender,
-      required this.telegram})
+      required this.gender})
       : super(key: key);
 
   @override
@@ -25,22 +26,14 @@ class AccountInformationWidget extends StatefulWidget {
 }
 
 class _AccountInformationWidgetState extends State<AccountInformationWidget> {
-  static const double _kItemExtent = 32.0;
-  final List<int> _ages = [for (var i = 14; i <= 100; i++) i];
-  late int _selectedAge;
-
   @override
   Widget build(BuildContext context) {
-    final blocAccount = context.read<AccountViewModel>();
-    _selectedAge = blocAccount.state.userModel.years;
-
     return Column(
       children: [
         customText(Strings.login, widget.login),
         customText(Strings.email, widget.email),
-        customTextPicker(Strings.years, widget.years),
-        customText(Strings.gender, widget.gender),
-        customText(Strings.telegram, widget.telegram),
+        ageWidget(Strings.years, widget.years),
+        genderWidget(Strings.gender, widget.gender),
       ],
     );
   }
@@ -56,54 +49,76 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
         ));
   }
 
-  Widget customTextPicker<T>(String info, T text) {
+  Widget ageWidget<T>(String info, T text) {
     return Padding(
         padding: const EdgeInsets.all(10),
-        child: CupertinoButton(
-          padding: EdgeInsets.zero,
-          onPressed: () => _showDialog(
-            CupertinoPicker(
-              magnification: 1.22,
-              squeeze: 1.2,
-              useMagnifier: true,
-              itemExtent: _kItemExtent,
-              onSelectedItemChanged: (int selectedItem) {
-                setState(() {
-                  _selectedAge = selectedItem;
-                });
-              },
-              children: List<Widget>.generate(_ages.length, (int index) {
-                return Center(
-                  child: Text(
-                    _ages[index].toString(),
-                  ),
-                );
-              }),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$info: ${text.toString()}',
+              style: const TextStyle(
+                fontSize: 16,
+              ),
             ),
-          ),
-          child: Text(
-            _ages[_selectedAge].toString(),
-            style: const TextStyle(
-              fontSize: 16.0,
-            ),
-          ),
+            TextButton(
+                onPressed: () {
+                  showPickerNumber(context);
+                },
+                child: const Text(Strings.change))
+          ],
         ));
   }
 
-  void _showDialog(Widget child) {
-    showCupertinoModalPopup<void>(
-        context: context,
-        builder: (BuildContext context) => Container(
-              height: 200,
-              padding: const EdgeInsets.only(top: 6.0),
-              margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
+  // age picker
+  showPickerNumber(BuildContext context) {
+    final blocAccount = context.read<AccountViewModel>();
+    Picker(
+        adapter: NumberPickerAdapter(data: [
+          const NumberPickerColumn(begin: 14, end: 100),
+        ]),
+        hideHeader: true,
+        title: const Text(Strings.selectAge),
+        selectedTextStyle: const TextStyle(color: Colors.blue),
+        onConfirm: (Picker picker, List value) {
+          final valueAge = picker.getSelectedValues().first as int;
+          blocAccount.add(UpdateAgeEvent(age: valueAge));
+        }).showDialog(context);
+  }
+
+  Widget genderWidget<T>(String info, T text) {
+    return Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              '$info: ${text.toString()}',
+              style: const TextStyle(
+                fontSize: 16,
               ),
-              color: CupertinoColors.systemBackground.resolveFrom(context),
-              child: SafeArea(
-                top: false,
-                child: child,
-              ),
-            ));
+            ),
+            TextButton(
+                onPressed: () {
+                  showPickerGender(context);
+                },
+                child: const Text(Strings.change))
+          ],
+        ));
+  }
+
+  // gender picker
+  showPickerGender(BuildContext context) {
+    final blocAccount = context.read<AccountViewModel>();
+    Picker(
+        adapter: PickerDataAdapter<String>(
+            pickerdata: const JsonDecoder().convert(Strings.pickerGender),
+            isArray: true),
+        hideHeader: true,
+        title: const Text(Strings.selectGender),
+        onConfirm: (Picker picker, List value) {
+          final valueGender = picker.getSelectedValues().first as String;
+          blocAccount.add(UpdateGenderEvent(gender: valueGender));
+        }).showDialog(context);
   }
 }

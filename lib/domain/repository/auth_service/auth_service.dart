@@ -51,7 +51,6 @@ class AuthService {
     userEntityFromDB = userEntityFromDB.copyWith(
         jsonPersonalEvents: userEntityFromModel.jsonPersonalEvents,
         years: userEntityFromModel.years,
-        telegram: userEntityFromModel.telegram,
         gender: userEntityFromModel.gender);
     await dbRepository.updateUser(userEntityFromDB.toJson());
   }

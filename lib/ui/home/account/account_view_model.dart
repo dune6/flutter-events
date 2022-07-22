@@ -18,6 +18,8 @@ class AccountViewModel extends Bloc<AccountEvent, AccountState> {
       : super(init) {
     on<AccountLogoutEvent>((event, emit) => logout(emit));
     on<AccountGetUserEvent>((event, emit) => getUser(emit));
+    on<UpdateAgeEvent>((event, emit) => updateUserAge(event, emit));
+    on<UpdateGenderEvent>((event, emit) => updateUserGender(event, emit));
   }
 
   Future<void> logout(Emitter emit) async {
@@ -33,5 +35,22 @@ class AccountViewModel extends Bloc<AccountEvent, AccountState> {
     final userEntity = await authService.currentUser();
     final userModel = UserRepository.userEntityToUserModel(userEntity);
     emit(state.copyWith(userModel: userModel));
+  }
+
+  Future<void> updateUserAge(UpdateAgeEvent event, Emitter emit) async {
+    final currentUser = state.userModel;
+    await authService.updateUserInfo(currentUser.copyWith(years: event.age));
+    emit(state.copyWith(
+        userModel: UserRepository.userEntityToUserModel(
+            await authService.currentUser())));
+  }
+
+  Future<void> updateUserGender(UpdateGenderEvent event, Emitter emit) async {
+    final currentUser = state.userModel;
+    await authService
+        .updateUserInfo(currentUser.copyWith(gender: event.gender));
+    emit(state.copyWith(
+        userModel: UserRepository.userEntityToUserModel(
+            await authService.currentUser())));
   }
 }

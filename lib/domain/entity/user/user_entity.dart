@@ -12,7 +12,6 @@ class UserEntity {
     required this.password,
     this.years = 0,
     this.gender = '',
-    this.telegram = '',
     this.jsonPersonalEvents = '',
   });
 
@@ -22,7 +21,6 @@ class UserEntity {
   final String password;
   final int years;
   final String gender;
-  final String telegram;
   final String jsonPersonalEvents;
 
   UserEntity copyWith({
@@ -32,7 +30,6 @@ class UserEntity {
     String? password,
     int? years,
     String? gender,
-    String? telegram,
     String? jsonPersonalEvents,
   }) {
     return UserEntity(
@@ -42,7 +39,6 @@ class UserEntity {
       password: password ?? this.password,
       years: years ?? this.years,
       gender: gender ?? this.gender,
-      telegram: telegram ?? this.telegram,
       jsonPersonalEvents: jsonPersonalEvents ?? this.jsonPersonalEvents,
     );
   }
@@ -54,7 +50,6 @@ class UserEntity {
       password: json["password"],
       years: json["years"],
       gender: json["gender"],
-      telegram: json["telegram"],
       jsonPersonalEvents: json["jsonPersonalEvents"]);
 
   static Map<String, dynamic> userEntityToMap(UserEntity user) => {
@@ -64,7 +59,6 @@ class UserEntity {
         "password": user.password,
         "years": user.years,
         "gender": user.gender,
-        "telegram": user.telegram,
         "jsonPersonalEvents": user.jsonPersonalEvents,
       };
 

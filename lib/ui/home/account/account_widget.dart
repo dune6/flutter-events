@@ -14,25 +14,6 @@ class AccountWidget extends StatelessWidget {
   static const _logoSize = 100.0;
   static const _logoPadding = 50.0;
 
-  // static Widget create() {
-  //   return MultiBlocProvider(
-  //     providers: [
-  //       BlocProvider(
-  //           create: (_) => SplashViewModel(const SplashState(isAuth: true),
-  //               authService: GlobalFactory().authService())),
-  //       BlocProvider(
-  //           create: (_) => AuthViewModel(const AuthState(),
-  //               authService: GlobalFactory().authService())),
-  //       BlocProvider(
-  //           create: (_) => AccountViewModel(
-  //               AccountState(isAuth: true, userModel: UserModel.emptyUser()),
-  //               authService: GlobalFactory().authService())
-  //             ..add(AccountGetUserEvent())), // init user from db
-  //     ],
-  //     child: const AccountWidget(),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final accountViewModelBloc = context.watch<AccountViewModel>();
@@ -53,8 +34,7 @@ class AccountWidget extends StatelessWidget {
                 login: accountViewModelBloc.state.userModel.login,
                 email: accountViewModelBloc.state.userModel.email,
                 years: accountViewModelBloc.state.userModel.years,
-                gender: accountViewModelBloc.state.userModel.gender,
-                telegram: accountViewModelBloc.state.userModel.telegram),
+                gender: accountViewModelBloc.state.userModel.gender),
             BlocListener<AccountViewModel, AccountState>(
               listener: (context, state) {
                 if (state.isAuth == false) {

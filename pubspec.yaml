@@ -23,6 +23,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   json_annotation: ^4.6.0
   flutter_picker: ^2.0.5
+  flutter_launcher_icons: ^0.9.3
 
 
 dev_dependencies:
@@ -34,6 +35,11 @@ dev_dependencies:
 
   flutter_lints: ^1.0.0
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/event.png"
 
 flutter:
 
@@ -42,3 +48,4 @@ flutter:
   assets:
     - assets/event.svg
     - assets/events.json
+    - assets/event.png

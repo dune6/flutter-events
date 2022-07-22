@@ -43,8 +43,10 @@ class EventsWidget extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return EventWidget(
                     name: eventsViewModelBloc.state.filteredEvents[index].text,
-                    place: eventsViewModelBloc.state.filteredEvents[index].place,
-                    dateTime: eventsViewModelBloc.state.filteredEvents[index].time,
+                    place:
+                        eventsViewModelBloc.state.filteredEvents[index].place,
+                    dateTime:
+                        eventsViewModelBloc.state.filteredEvents[index].time,
                     event: AddEventToFavoritesEvent(
                         eventsViewModelBloc.state.filteredEvents[index]),
                     bloc: eventsViewModelBloc,

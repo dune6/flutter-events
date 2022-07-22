@@ -7,9 +7,6 @@ import 'package:flutter_events/domain/entity/user/user_model.dart';
 import 'package:flutter_events/domain/repository/user/user_repository.dart';
 import 'package:flutter_events/exceptions/auth_exception.dart';
 
-/*
-  Сервис для работы с репозиториями auth
- */
 class AuthService {
   final SessionDataProvider sessionDataProvider;
   final DBRepository dbRepository;

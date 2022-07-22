@@ -10,7 +10,8 @@ part 'splash_state.dart';
 class SplashViewModel extends Bloc<SplashEvent, SplashState> {
   final AuthService authService;
 
-  SplashViewModel(SplashState initial, {required this.authService}) : super(initial) {
+  SplashViewModel(SplashState initial, {required this.authService})
+      : super(initial) {
     on<SplashCheckAuth>((event, emit) => checkAuth(emit));
     on<ChangeAuthSplash>((event, emit) => changeAuthed(emit));
     add(SplashCheckAuth()); // вызываем проверку авторизации при создании блока

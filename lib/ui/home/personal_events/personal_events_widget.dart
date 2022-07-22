@@ -16,9 +16,11 @@ class PersonalEventsWidget extends StatelessWidget {
   static Widget create() {
     return BlocProvider(
       create: (_) => PersonalEventsViewModel(
-          const PersonalEventsState(findText: '', events: []),
+          const PersonalEventsState(
+              findText: '', events: [], filteredEvents: []),
           authService: GlobalFactory().authService())
-        ..add(GetAccountEventsEvent()),
+        ..add(GetAccountEventsEvent())
+        ..add(ChangeFindInputPersonalEvent('')),
       child: const PersonalEventsWidget(),
     );
   }
@@ -42,15 +44,17 @@ class PersonalEventsWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(top: _topListPadding),
               child: ListView.separated(
-                itemCount: eventsViewModelBloc.state.events.length,
+                itemCount: eventsViewModelBloc.state.filteredEvents.length,
                 separatorBuilder: (_, index) => const Divider(
                   height: 10,
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return EventWidget(
-                    name: eventsViewModelBloc.state.events[index].text,
-                    place: eventsViewModelBloc.state.events[index].place,
-                    dateTime: eventsViewModelBloc.state.events[index].time,
+                    name: eventsViewModelBloc.state.filteredEvents[index].text,
+                    place:
+                        eventsViewModelBloc.state.filteredEvents[index].place,
+                    dateTime:
+                        eventsViewModelBloc.state.filteredEvents[index].time,
                     event: DeleteEvent(index),
                     bloc: eventsViewModelBloc,
                   );

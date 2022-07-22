@@ -36,17 +36,17 @@ class EventsWidget extends StatelessWidget {
             child: RefreshIndicator(
               onRefresh: () => _refresh(eventsViewModelBloc),
               child: ListView.separated(
-                itemCount: eventsViewModelBloc.state.events.length,
+                itemCount: eventsViewModelBloc.state.filteredEvents.length,
                 separatorBuilder: (_, index) => const Divider(
                   height: _separatedHeight,
                 ),
                 itemBuilder: (BuildContext context, int index) {
                   return EventWidget(
-                    name: eventsViewModelBloc.state.events[index].text,
-                    place: eventsViewModelBloc.state.events[index].place,
-                    dateTime: eventsViewModelBloc.state.events[index].time,
+                    name: eventsViewModelBloc.state.filteredEvents[index].text,
+                    place: eventsViewModelBloc.state.filteredEvents[index].place,
+                    dateTime: eventsViewModelBloc.state.filteredEvents[index].time,
                     event: AddEventToFavoritesEvent(
-                        eventsViewModelBloc.state.events[index]),
+                        eventsViewModelBloc.state.filteredEvents[index]),
                     bloc: eventsViewModelBloc,
                   );
                 },

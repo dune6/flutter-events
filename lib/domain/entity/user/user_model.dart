@@ -12,7 +12,6 @@ class UserModel {
     required this.password,
     this.years = 0,
     this.gender = '',
-    this.telegram = '',
     this.personalEvents = const [],
   });
 
@@ -22,7 +21,6 @@ class UserModel {
     this.password = '',
     this.years = 0,
     this.gender = '',
-    this.telegram = '',
     this.personalEvents = const [],
   });
 
@@ -32,7 +30,6 @@ class UserModel {
   final String password;
   final int years;
   final String gender;
-  final String telegram;
   final List<EventModel> personalEvents;
 
   static UserModel userModelFromMap(Map<String, dynamic> json) => UserModel(
@@ -41,7 +38,6 @@ class UserModel {
         password: json["password"],
         years: json["years"],
         gender: json["gender"],
-        telegram: json["telegram"],
         personalEvents: json["personalEvents"],
       );
 
@@ -51,7 +47,6 @@ class UserModel {
         "password": user.password,
         "years": user.years,
         "gender": user.gender,
-        "telegram": user.telegram,
         "personalEvents": user.personalEvents
       };
 
@@ -59,4 +54,23 @@ class UserModel {
       _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
+  UserModel copyWith({
+    String? login,
+    String? email,
+    String? password,
+    int? years,
+    String? gender,
+    String? telegram,
+    List<EventModel>? personalEvents,
+  }) {
+    return UserModel(
+      login: login ?? this.login,
+      email: email ?? this.email,
+      password: password ?? this.password,
+      years: years ?? this.years,
+      gender: gender ?? this.gender,
+      personalEvents: personalEvents ?? this.personalEvents,
+    );
+  }
 }

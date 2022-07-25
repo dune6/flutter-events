@@ -13,7 +13,6 @@ class UserRepository {
       password: userEntity.password,
       years: userEntity.years,
       gender: userEntity.gender,
-      telegram: userEntity.telegram,
       personalEvents:
           (jsonDecode(userEntity.jsonPersonalEvents) as List<dynamic>)
               .map((e) => EventRepository.eventEntityToEventModel(
@@ -29,7 +28,6 @@ class UserRepository {
       password: userModel.password,
       years: userModel.years,
       gender: userModel.gender,
-      telegram: userModel.telegram,
       jsonPersonalEvents: jsonEncode(userModel.personalEvents),
     );
   }

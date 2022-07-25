@@ -15,23 +15,32 @@ class PersonalEventsViewModel
   PersonalEventsViewModel(PersonalEventsState personalEventsState,
       {required this.authService})
       : super(personalEventsState) {
-    on<ChangeFindInputPersonalEvent>(
-        (event, emit) => changeFindInputText(event, emit));
+    on<ChangeInputEvent>((event, emit) => changeFindInputText(event, emit));
     on<DeleteEvent>((event, emit) => deleteBloc(event, emit));
     on<GetAccountEventsEvent>((event, emit) => getUserEvents(emit));
   }
 
   // обработка ввода текста в форме find event
-  void changeFindInputText(ChangeFindInputPersonalEvent event, Emitter emit) {
-    if (state.findText == event.text) return;
-    emit(state.copyWith(findText: event.text));
-    // TODO some logic to draw list with elements contains find text
+  void changeFindInputText(ChangeInputEvent event, Emitter emit) {
+    if (state.findText == event.text) {
+      return;
+    }
+    emit(state.copyWith(
+        findText: event.text,
+        filteredEvents: state.events
+            .where((EventModel movie) =>
+                movie.text.toLowerCase().contains(event.text.toLowerCase()))
+            .toList()));
   }
 
   Future<void> getUserEvents(Emitter emit) async {
     final userEntity = await authService.currentUser();
     final userModel = UserRepository.userEntityToUserModel(userEntity);
     emit(state.copyWith(events: userModel.personalEvents));
+
+    if (state.filteredEvents.isEmpty && state.findText.isEmpty) {
+      emit(state.copyWith(filteredEvents: state.events));
+    }
   }
 
   Future<void> deleteBloc(DeleteEvent event, Emitter emit) async {

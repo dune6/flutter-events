@@ -65,10 +65,12 @@ class _HomeWidgetState extends State<HomeWidget>
             BlocProvider(
               lazy: false,
               create: (_) => EventsViewModel(
-                  const EventsState(findText: '', events: []),
+                  const EventsState(
+                      findText: '', events: [], filteredEvents: []),
                   eventsService: GlobalFactory().eventsService(),
                   authService: GlobalFactory().authService())
-                ..add(GetEventsEvent()),
+                ..add(GetEventsEvent())
+                ..add(ChangeFindInputEvent('')),
             ),
             BlocProvider(
                 create: (_) => SplashViewModel(const SplashState(isAuth: true),

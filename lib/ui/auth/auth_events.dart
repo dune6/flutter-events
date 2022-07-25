@@ -5,7 +5,6 @@ abstract class AuthEvent {}
 
 class ChangeAuthedAuth extends AuthEvent {}
 
-// business logic events
 class LoginEvent extends AuthEvent {
   final String login;
   final String password;

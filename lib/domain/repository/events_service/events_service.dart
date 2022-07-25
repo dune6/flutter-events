@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'package:flutter_events/domain/data/home_screen/events_api_provider.dart';
 import 'package:flutter_events/domain/entity/event/event_model.dart';
 
-/*
-  Сервис для работы с репозиториями ивентов
- */
 class EventsService {
   final EventsApiProvider eventsProvider;
 

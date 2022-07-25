@@ -35,14 +35,11 @@ class DBProvider {
           'password TEXT,'
           'years INTEGER,'
           'gender TEXT,'
-          'telegram TEXT, '
           'jsonPersonalEvents TEXT)',
         );
       },
       onOpen: (db) {},
-      // Set the version. This executes the onCreate function and provides a
-      // path to perform database upgrades and downgrades.
-      version: 2,
+      version: 1,
     );
   }
 }

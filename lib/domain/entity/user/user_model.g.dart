@@ -12,7 +12,6 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       password: json['password'] as String,
       years: json['years'] as int? ?? 0,
       gender: json['gender'] as String? ?? '',
-      telegram: json['telegram'] as String? ?? '',
       personalEvents: (json['personalEvents'] as List<dynamic>?)
               ?.map((e) => EventModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -25,6 +24,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'password': instance.password,
       'years': instance.years,
       'gender': instance.gender,
-      'telegram': instance.telegram,
       'personalEvents': instance.personalEvents,
     };

@@ -11,7 +11,8 @@ import 'auth_state.dart';
 class AuthViewModel extends Bloc<AuthEvent, AuthState> {
   final AuthService authService;
 
-  AuthViewModel(AuthState initialState, {required this.authService}) : super(initialState) {
+  AuthViewModel(AuthState initialState, {required this.authService})
+      : super(initialState) {
     on<ChangeToggleButtonEvent>(
         (event, emit) => changeToggleButton(event, emit));
     on<ChangeLoginEvent>((event, emit) => changeLogin(event, emit));

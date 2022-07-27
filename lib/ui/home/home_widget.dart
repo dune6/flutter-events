@@ -64,21 +64,19 @@ class _HomeWidgetState extends State<HomeWidget>
         child: MultiBlocProvider(
           providers: [
             BlocProvider(
-              lazy: false,
-              create: (_) => PersonalEventsViewModel(
-                  const PersonalEventsState(
-                      findText: '', events: [], filteredEvents: []),
-                  authRepository: GlobalFactory().authService())
-                ..add(GetAccountEventsEvent())
-                ..add(InputEvent('')),
-            ),
+                lazy: false,
+                create: (_) => PersonalEventsViewModel(
+                    const PersonalEventsState(
+                        findText: '', events: [], filteredEvents: []),
+                    authRepository: GlobalFactory().authService())
+                  ..add(GetAccountEventsEvent())),
             BlocProvider(
               lazy: false,
               create: (_) => EventsViewModel(
-                  const EventsState(
-                      findText: '', events: [], filteredEvents: []),
-                  eventsService: GlobalFactory().eventsService(),
-                  authRepository: GlobalFactory().authService())
+                const EventsState(findText: '', events: [], filteredEvents: []),
+                eventsService: GlobalFactory().eventsService(),
+                authRepository: GlobalFactory().authService(),
+              )
                 ..add(GetEventsEvent())
                 ..add(ChangeFindInputEvent('')),
             ),

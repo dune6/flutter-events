@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_events/domain/entity/event/event_model.dart';
 import 'package:flutter_events/domain/repository/auth_repository/auth_repository.dart';
 import 'package:flutter_events/domain/repository/events_service/events_repository.dart';
@@ -13,7 +14,8 @@ class EventsViewModel extends Bloc<EventsEvent, EventsState> {
   final AuthRepository authRepository;
 
   EventsViewModel(EventsState eventsState,
-      {required this.eventsService, required this.authRepository})
+      {required this.eventsService,
+      required this.authRepository})
       : super(eventsState) {
     on<ChangeFindInputEvent>((event, emit) => changeFindInputText(event, emit));
     on<GetEventsEvent>((event, emit) => getEvents(emit));

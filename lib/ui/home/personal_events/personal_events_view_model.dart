@@ -24,17 +24,11 @@ class PersonalEventsViewModel
     final userEntity = await authRepository.currentUser();
     final userModel = UserRepository.userEntityToUserModel(userEntity);
     emit(state.copyWith(events: userModel.personalEvents));
-
-    if (state.filteredEvents.isEmpty && state.findText.isEmpty) {
-      emit(state.copyWith(filteredEvents: state.events));
-    }
+    add(InputEvent(state.findText));
   }
 
   // обработка ввода текста в форме find event
   void changeInputText(InputEvent event, Emitter emit) {
-    if (state.findText == event.text) {
-      return;
-    }
     emit(state.copyWith(
         findText: event.text,
         filteredEvents: state.events
@@ -48,6 +42,6 @@ class PersonalEventsViewModel
     final userModel = UserRepository.userEntityToUserModel(userEntity);
     userModel.personalEvents.removeAt(event.index);
     await authRepository.updateUserInfo(userModel);
-    emit(state.copyWith(events: userModel.personalEvents));
+    add(GetAccountEventsEvent());
   }
 }

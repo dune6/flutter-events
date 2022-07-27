@@ -12,22 +12,11 @@ class PersonalEventsWidget extends StatelessWidget {
   static const _topInputPadding = 10.0;
   static const _topListPadding = 15.0;
 
-  //
-  // static Widget create() {
-  //   return BlocProvider(
-  //     create: (_) => PersonalEventsViewModel(
-  //         const PersonalEventsState(
-  //             findText: '', events: [], filteredEvents: []),
-  //         authService: GlobalFactory().authService())
-  //       ..add(GetAccountEventsEvent())
-  //       ..add(ChangeInputEvent('')),
-  //     child: const PersonalEventsWidget(),
-  //   );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final eventsViewModelBloc = context.watch<PersonalEventsViewModel>();
+    BlocProvider.of<PersonalEventsViewModel>(context)
+        .add(GetAccountEventsEvent());
 
     return Scaffold(
       body: Column(
@@ -36,8 +25,7 @@ class PersonalEventsWidget extends StatelessWidget {
             padding: const EdgeInsets.only(top: _topInputPadding),
             child: InputText(
                 name: Strings.findEvents,
-                func: (text) =>
-                    eventsViewModelBloc.add(InputEvent(text)),
+                func: (text) => eventsViewModelBloc.add(InputEvent(text)),
                 obscureText: Constants.notObscure),
           ),
           Expanded(

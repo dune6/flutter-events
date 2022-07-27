@@ -12,6 +12,7 @@ class PersonalEventsWidget extends StatelessWidget {
   static const _topInputPadding = 10.0;
   static const _topListPadding = 15.0;
 
+  //
   // static Widget create() {
   //   return BlocProvider(
   //     create: (_) => PersonalEventsViewModel(

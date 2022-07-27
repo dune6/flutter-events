@@ -7,6 +7,7 @@ import 'package:flutter_events/ui/auth/auth_state.dart';
 import 'package:flutter_events/ui/auth/auth_view_model.dart';
 import 'package:flutter_events/ui/home/account/account_widget.dart';
 import 'package:flutter_events/ui/home/events/events_widget.dart';
+import 'package:flutter_events/ui/home/personal_events/personal_events_view_model.dart';
 import 'package:flutter_events/ui/home/personal_events/personal_events_widget.dart';
 import 'package:flutter_events/ui/splash_screen/splash_view_model.dart';
 
@@ -64,31 +65,40 @@ class _HomeWidgetState extends State<HomeWidget>
           providers: [
             BlocProvider(
               lazy: false,
+              create: (_) => PersonalEventsViewModel(
+                  const PersonalEventsState(
+                      findText: '', events: [], filteredEvents: []),
+                  authRepository: GlobalFactory().authService())
+                ..add(GetAccountEventsEvent())
+                ..add(InputEvent('')),
+            ),
+            BlocProvider(
+              lazy: false,
               create: (_) => EventsViewModel(
                   const EventsState(
                       findText: '', events: [], filteredEvents: []),
                   eventsService: GlobalFactory().eventsService(),
-                  authService: GlobalFactory().authService())
+                  authRepository: GlobalFactory().authService())
                 ..add(GetEventsEvent())
                 ..add(ChangeFindInputEvent('')),
             ),
             BlocProvider(
                 create: (_) => SplashViewModel(const SplashState(isAuth: true),
-                    authService: GlobalFactory().authService())),
+                    authRepository: GlobalFactory().authService())),
             BlocProvider(
                 create: (_) => AuthViewModel(const AuthState(),
-                    authService: GlobalFactory().authService())),
+                    authRepository: GlobalFactory().authService())),
             BlocProvider(
                 create: (_) => AccountViewModel(
                     AccountState(
                         isAuth: true, userModel: UserModel.emptyUser()),
-                    authService: GlobalFactory().authService())
+                    authRepository: GlobalFactory().authService())
                   ..add(AccountGetUserEvent())), // init user from db
           ],
-          child: TabBarView(controller: tabController, children: [
-            PersonalEventsWidget.create(),
-            const EventsWidget(),
-            const AccountWidget(),
+          child: TabBarView(controller: tabController, children: const [
+            PersonalEventsWidget(),
+            EventsWidget(),
+            AccountWidget(),
           ]),
         ),
       ),

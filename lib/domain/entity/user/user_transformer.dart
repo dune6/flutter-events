@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_events/domain/entity/event/event_entity.dart';
 import 'package:flutter_events/domain/entity/user/user_entity.dart';
 import 'package:flutter_events/domain/entity/user/user_model.dart';
-import 'package:flutter_events/domain/repository/events/evets_repository.dart';
+import 'package:flutter_events/domain/entity/event/evets_transformer.dart';
 
 class UserRepository {
   static UserModel userEntityToUserModel(UserEntity userEntity) {
@@ -15,7 +15,7 @@ class UserRepository {
       gender: userEntity.gender,
       personalEvents:
           (jsonDecode(userEntity.jsonPersonalEvents) as List<dynamic>)
-              .map((e) => EventRepository.eventEntityToEventModel(
+              .map((e) => EventTransformer.eventEntityToEventModel(
                   EventEntity.fromJson(e as Map<String, dynamic>)))
               .toList(),
     );

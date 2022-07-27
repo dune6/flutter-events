@@ -2,11 +2,11 @@ import 'package:flutter_events/domain/data/db_provider.dart';
 import 'package:flutter_events/domain/entity/user/user_entity.dart';
 import 'package:flutter_events/exceptions/db_exceptions.dart';
 
-class DBRepository {
+class DatabaseCrudProvider {
   // init database
   final DBProvider dbProvider;
 
-  DBRepository({required this.dbProvider});
+  DatabaseCrudProvider({required this.dbProvider});
 
   Future<UserEntity> getUserByLogin(String login) async {
     final db = await dbProvider.database;

@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
+import 'package:flutter_events/domain/repository/auth_repository/auth_repository.dart';
 import 'package:flutter_events/exceptions/auth_exception.dart';
 import 'package:flutter_events/exceptions/db_exceptions.dart';
 import 'package:flutter_events/resources/strings.dart';
@@ -9,9 +9,9 @@ import 'package:flutter_events/resources/constants.dart';
 import 'auth_state.dart';
 
 class AuthViewModel extends Bloc<AuthEvent, AuthState> {
-  final AuthService authService;
+  final AuthRepository authRepository;
 
-  AuthViewModel(AuthState initialState, {required this.authService})
+  AuthViewModel(AuthState initialState, {required this.authRepository})
       : super(initialState) {
     on<ChangeToggleButtonEvent>(
         (event, emit) => changeToggleButton(event, emit));
@@ -72,7 +72,7 @@ class AuthViewModel extends Bloc<AuthEvent, AuthState> {
     if (validateLogin(event.login) && validatePassword(event.password)) {
       emit(state.copyWith(validation: true));
       try {
-        await authService.login(event.login, event.password);
+        await authRepository.login(event.login, event.password);
         emit(state.copyWith(successAuthed: true));
       } on UserDoesNotExist {
         emit(state.copyWith(
@@ -100,7 +100,7 @@ class AuthViewModel extends Bloc<AuthEvent, AuthState> {
         state.isAgreeSwitch) {
       emit(state.copyWith(validation: true));
       try {
-        await authService.registrationUser(
+        await authRepository.registrationUser(
             event.login, event.email, event.password);
         emit(clearStateWithSelect(Constants.loginPageNumber, state));
       } on UserAlreadyExist {

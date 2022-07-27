@@ -3,10 +3,10 @@ part of 'personal_events_view_model.dart';
 @immutable
 abstract class PersonalEventsEvent {}
 
-class ChangeInputEvent extends PersonalEventsEvent {
+class InputEvent extends PersonalEventsEvent {
   final String text;
 
-  ChangeInputEvent(this.text);
+  InputEvent(this.text);
 }
 
 class GetAccountEventsEvent extends PersonalEventsEvent {}

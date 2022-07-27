@@ -1,9 +1,9 @@
 import 'package:flutter/services.dart';
 
-class EventsApiProvider {
+class RestApiService {
   final String jsonPath;
 
-  EventsApiProvider({required this.jsonPath});
+  RestApiService({required this.jsonPath});
 
   Future<String> readEvents() async {
     return await rootBundle

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_events/di/global_factory.dart';
 import 'package:flutter_events/resources/constants.dart';
 import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/global_widgets/event_widget.dart';
@@ -13,17 +12,17 @@ class PersonalEventsWidget extends StatelessWidget {
   static const _topInputPadding = 10.0;
   static const _topListPadding = 15.0;
 
-  static Widget create() {
-    return BlocProvider(
-      create: (_) => PersonalEventsViewModel(
-          const PersonalEventsState(
-              findText: '', events: [], filteredEvents: []),
-          authService: GlobalFactory().authService())
-        ..add(GetAccountEventsEvent())
-        ..add(ChangeInputEvent('')),
-      child: const PersonalEventsWidget(),
-    );
-  }
+  // static Widget create() {
+  //   return BlocProvider(
+  //     create: (_) => PersonalEventsViewModel(
+  //         const PersonalEventsState(
+  //             findText: '', events: [], filteredEvents: []),
+  //         authService: GlobalFactory().authService())
+  //       ..add(GetAccountEventsEvent())
+  //       ..add(ChangeInputEvent('')),
+  //     child: const PersonalEventsWidget(),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,7 @@ class PersonalEventsWidget extends StatelessWidget {
             child: InputText(
                 name: Strings.findEvents,
                 func: (text) =>
-                    eventsViewModelBloc.add(ChangeInputEvent(text)),
+                    eventsViewModelBloc.add(InputEvent(text)),
                 obscureText: Constants.notObscure),
           ),
           Expanded(

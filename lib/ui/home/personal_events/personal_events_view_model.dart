@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_events/domain/entity/event/event_model.dart';
-import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
-import 'package:flutter_events/domain/repository/user/user_repository.dart';
+import 'package:flutter_events/domain/entity/user/user_transformer.dart';
+import 'package:flutter_events/domain/repository/auth_repository/auth_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'personal_events_event.dart';
@@ -10,18 +10,28 @@ part 'personal_events_state.dart';
 
 class PersonalEventsViewModel
     extends Bloc<PersonalEventsEvent, PersonalEventsState> {
-  final AuthService authService;
+  final AuthRepository authRepository;
 
   PersonalEventsViewModel(PersonalEventsState personalEventsState,
-      {required this.authService})
+      {required this.authRepository})
       : super(personalEventsState) {
-    on<ChangeInputEvent>((event, emit) => changeFindInputText(event, emit));
-    on<DeleteEvent>((event, emit) => deleteBloc(event, emit));
+    on<InputEvent>((event, emit) => changeInputText(event, emit));
+    on<DeleteEvent>((event, emit) => deleteEvent(event, emit));
     on<GetAccountEventsEvent>((event, emit) => getUserEvents(emit));
   }
 
+  Future<void> getUserEvents(Emitter emit) async {
+    final userEntity = await authRepository.currentUser();
+    final userModel = UserRepository.userEntityToUserModel(userEntity);
+    emit(state.copyWith(events: userModel.personalEvents));
+
+    if (state.filteredEvents.isEmpty && state.findText.isEmpty) {
+      emit(state.copyWith(filteredEvents: state.events));
+    }
+  }
+
   // обработка ввода текста в форме find event
-  void changeFindInputText(ChangeInputEvent event, Emitter emit) {
+  void changeInputText(InputEvent event, Emitter emit) {
     if (state.findText == event.text) {
       return;
     }
@@ -33,21 +43,11 @@ class PersonalEventsViewModel
             .toList()));
   }
 
-  Future<void> getUserEvents(Emitter emit) async {
-    final userEntity = await authService.currentUser();
-    final userModel = UserRepository.userEntityToUserModel(userEntity);
-    emit(state.copyWith(events: userModel.personalEvents));
-
-    if (state.filteredEvents.isEmpty && state.findText.isEmpty) {
-      emit(state.copyWith(filteredEvents: state.events));
-    }
-  }
-
-  Future<void> deleteBloc(DeleteEvent event, Emitter emit) async {
-    final userEntity = await authService.currentUser();
+  Future<void> deleteEvent(DeleteEvent event, Emitter emit) async {
+    final userEntity = await authRepository.currentUser();
     final userModel = UserRepository.userEntityToUserModel(userEntity);
     userModel.personalEvents.removeAt(event.index);
-    await authService.updateUserInfo(userModel);
+    await authRepository.updateUserInfo(userModel);
     emit(state.copyWith(events: userModel.personalEvents));
   }
 }

@@ -13,7 +13,7 @@ class SplashWidget extends StatelessWidget {
   static Widget create() {
     return BlocProvider(
       create: (_) => SplashViewModel(const SplashState(isAuth: false),
-          authService: GlobalFactory().authService()),
+          authRepository: GlobalFactory().authService()),
       child: const SplashWidget(),
     );
   }

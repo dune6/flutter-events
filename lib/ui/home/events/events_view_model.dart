@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter_events/domain/entity/event/event_model.dart';
-import 'package:flutter_events/domain/repository/auth_service/auth_service.dart';
-import 'package:flutter_events/domain/repository/events_service/events_service.dart';
+import 'package:flutter_events/domain/repository/auth_repository/auth_repository.dart';
+import 'package:flutter_events/domain/repository/events_service/events_repository.dart';
 import 'package:meta/meta.dart';
 
 part 'events_event.dart';
@@ -9,16 +9,15 @@ part 'events_event.dart';
 part 'events_state.dart';
 
 class EventsViewModel extends Bloc<EventsEvent, EventsState> {
-  final EventsService eventsService;
-  final AuthService authService;
+  final EventsRepository eventsService;
+  final AuthRepository authRepository;
 
   EventsViewModel(EventsState eventsState,
-      {required this.eventsService, required this.authService})
+      {required this.eventsService, required this.authRepository})
       : super(eventsState) {
     on<ChangeFindInputEvent>((event, emit) => changeFindInputText(event, emit));
     on<GetEventsEvent>((event, emit) => getEvents(emit));
-    on<AddEventToFavoritesEvent>(
-        (event, emit) => addEventToFavourite(event));
+    on<AddEventToFavoritesEvent>((event, emit) => addEventToFavourite(event));
   }
 
   // обработка ввода текста в форме find event
@@ -42,6 +41,6 @@ class EventsViewModel extends Bloc<EventsEvent, EventsState> {
   }
 
   void addEventToFavourite(AddEventToFavoritesEvent event) async {
-    await authService.addEventToFavourite(event.eventModel);
+    await authRepository.addEventToFavourite(event.eventModel);
   }
 }

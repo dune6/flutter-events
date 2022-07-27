@@ -1,21 +1,21 @@
 import 'dart:async';
 
-import 'package:flutter_events/domain/data/auth_data/database_repository.dart';
+import 'package:flutter_events/domain/data/auth_data/database_crud_provider.dart';
 import 'package:flutter_events/domain/data/auth_data/session_provider.dart';
 import 'package:flutter_events/domain/entity/event/event_model.dart';
 import 'package:flutter_events/domain/entity/user/user_entity.dart';
 import 'package:flutter_events/domain/entity/user/user_model.dart';
-import 'package:flutter_events/domain/repository/user/user_repository.dart';
+import 'package:flutter_events/domain/entity/user/user_transformer.dart';
 import 'package:flutter_events/exceptions/auth_exception.dart';
 
-class AuthService {
+class AuthRepository {
   final SessionDataProvider sessionDataProvider;
-  final DBRepository dbRepository;
+  final DatabaseCrudProvider dbProvider;
 
-  AuthService({required this.sessionDataProvider, required this.dbRepository});
+  AuthRepository({required this.sessionDataProvider, required this.dbProvider});
 
   Future<UserEntity> currentUser() async {
-    return await dbRepository
+    return await dbProvider
         .getUserByLogin(await sessionDataProvider.getUserLogin());
   }
 
@@ -24,7 +24,7 @@ class AuthService {
   }
 
   Future<void> login(String login, String password) async {
-    final user = await dbRepository.getUserByLogin(login);
+    final user = await dbProvider.getUserByLogin(login);
     if (user.password == password) {
       await sessionDataProvider.saveLoginKey(login);
     } else {
@@ -34,7 +34,7 @@ class AuthService {
 
   Future<void> registrationUser(
       String login, String email, String password) async {
-    await dbRepository.addUser(UserRepository.userModelToUserEntity(
+    await dbProvider.addUser(UserRepository.userModelToUserEntity(
             UserModel(login: login, email: email, password: password))
         .toJson());
   }
@@ -44,13 +44,13 @@ class AuthService {
   }
 
   Future<void> updateUserInfo(UserModel userModel) async {
-    var userEntityFromDB = await dbRepository.getUserByLogin(userModel.login);
+    var userEntityFromDB = await dbProvider.getUserByLogin(userModel.login);
     final userEntityFromModel = UserRepository.userModelToUserEntity(userModel);
     userEntityFromDB = userEntityFromDB.copyWith(
         jsonPersonalEvents: userEntityFromModel.jsonPersonalEvents,
         years: userEntityFromModel.years,
         gender: userEntityFromModel.gender);
-    await dbRepository.updateUser(userEntityFromDB.toJson());
+    await dbProvider.updateUser(userEntityFromDB.toJson());
   }
 
   Future<void> addEventToFavourite(EventModel eventModel) async {

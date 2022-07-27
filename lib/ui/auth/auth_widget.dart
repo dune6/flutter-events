@@ -22,7 +22,7 @@ class AuthWidget extends StatelessWidget {
   static Widget create() {
     return BlocProvider(
       create: (_) => AuthViewModel(const AuthState(),
-          authService: GlobalFactory().authService()),
+          authRepository: GlobalFactory().authService()),
       child: const AuthWidget(),
     );
   }

@@ -1,12 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter_events/domain/data/home_screen/events_api_provider.dart';
+import 'package:flutter_events/domain/data/home_screen/rest_api_service.dart';
 import 'package:flutter_events/domain/entity/event/event_model.dart';
 
-class EventsService {
-  final EventsApiProvider eventsProvider;
+class EventsRepository {
+  final RestApiService eventsProvider;
 
-  EventsService({required this.eventsProvider});
+  EventsRepository({required this.eventsProvider});
 
   Future<List<EventModel>> getEventsRestAPI() async {
     final listOfEvents =

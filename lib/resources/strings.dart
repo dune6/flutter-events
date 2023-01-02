@@ -20,8 +20,11 @@ class Strings {
 
   // events screen
   static const findEvents = 'Найти события';
+  static const eventAdded = 'Событие добавлено';
+  static const eventAlreadyAdded = 'Событие уже добавлено';
 
   //personal events screen
+  static const eventDeleted = 'Событие удалено';
 
   // account screen
   static const logout = 'Выйти из аккаунта';
@@ -40,4 +43,6 @@ class Strings {
       ]
   ]
       ''';
+  static const confirm = 'Подтвердить';
+  static const cancel = 'Назад';
 }

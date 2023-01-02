@@ -74,6 +74,8 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
   showPickerNumber(BuildContext context) {
     final blocAccount = context.read<AccountViewModel>();
     Picker(
+        confirmText: Strings.confirm,
+        cancelText: Strings.cancel,
         adapter: NumberPickerAdapter(data: [
           const NumberPickerColumn(begin: 14, end: 100),
         ]),
@@ -111,6 +113,8 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
   showPickerGender(BuildContext context) {
     final blocAccount = context.read<AccountViewModel>();
     Picker(
+        confirmText: Strings.confirm,
+        cancelText: Strings.cancel,
         adapter: PickerDataAdapter<String>(
             pickerdata: const JsonDecoder().convert(Strings.pickerGender),
             isArray: true),

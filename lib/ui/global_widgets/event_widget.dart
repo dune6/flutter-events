@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_events/resources/strings.dart';
 import 'package:flutter_events/ui/home/events/events_view_model.dart';
 
 class EventWidget<EventT, BlocT extends Bloc> extends StatelessWidget {
@@ -50,7 +51,7 @@ class EventWidget<EventT, BlocT extends Bloc> extends StatelessWidget {
                   Text(dateTime),
                 ],
               ),
-              customIcon()
+              customIcon(context)
             ],
           ),
         ),
@@ -58,9 +59,22 @@ class EventWidget<EventT, BlocT extends Bloc> extends StatelessWidget {
     );
   }
 
-  Widget customIcon() {
+  Widget customIcon(BuildContext context) {
     return GestureDetector(
-      onTap: () => bloc.add(event),
+      onTap: () {
+        bloc.add(event);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          backgroundColor: bloc is EventsViewModel ? Colors.green : Colors.red,
+          content: bloc is EventsViewModel
+              ? const Text(Strings.eventAdded,
+                  style: TextStyle(color: Colors.white, fontSize: 16))
+              : const Text(
+                  Strings.eventDeleted,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
+                ),
+          duration: const Duration(seconds: 1),
+        ));
+      },
       child: bloc is EventsViewModel
           ? const Icon(Icons.add_box_outlined)
           : const Icon(Icons.delete_outline),
